@@ -1,0 +1,467 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://metal-appliance-93818.appspot.com/_ah/api",
+  "name" : "web",
+  "version" : "v1",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "https://metal-appliance-93818.appspot.com/_ah/spi",
+    "deadline" : 65.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "methods" : {
+    "web.usuario.senha.esqueci.alterar" : {
+      "path" : "usuario/senha/esqueci/alterar",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.alterarSenhaEsquecida",
+      "request" : {
+        "parameters" : {
+          "token" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "web.usuario.cadastro.alterar" : {
+      "path" : "usuario/cadastro/alterar",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.alterarCadastro",
+      "request" : {
+        "parameters" : {
+          "sessao" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "web.usuario.senha.alterar" : {
+      "path" : "usuario/senha/alterar",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.alterarSenha",
+      "request" : {
+        "parameters" : {
+          "sessao" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "web.usuario.senha.esqueci" : {
+      "path" : "usuario/senha/esqueci",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.esqueciSenha",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "web.noticia.listar" : {
+      "path" : "noticia/listar",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.listarNoticias",
+      "request" : {
+        "parameters" : {
+          "pais" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "web.cadastrar.usuario" : {
+      "path" : "cadastrar/usuario",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.cadastrar",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "web.usuario.renovar" : {
+      "path" : "usuario/renovar",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.continuaCadastro",
+      "request" : {
+        "parameters" : {
+          "usuario" : {
+            "type" : "string",
+            "required" : true
+          },
+          "sessao" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "web.conta.saldo.listar" : {
+      "path" : "conta/saldo/listar",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.listarSaldoConta",
+      "request" : {
+        "parameters" : {
+          "usuario" : {
+            "type" : "string",
+            "required" : true
+          },
+          "sessao" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "web.extrato.listar" : {
+      "path" : "extrato/listar",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.listarExtrato",
+      "request" : {
+        "parameters" : {
+          "usuario" : {
+            "type" : "string",
+            "required" : true
+          },
+          "sessao" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "web.usuario.login" : {
+      "path" : "usuario/login",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.login",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "Usuario" : {
+        "id" : "Usuario",
+        "type" : "object",
+        "properties" : {
+          "apelido" : {
+            "type" : "string"
+          },
+          "nome" : {
+            "type" : "string"
+          },
+          "sobrenome" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "Status"
+          },
+          "senha" : {
+            "type" : "string"
+          },
+          "criptografada" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "salt" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "emailConfirmado" : {
+            "type" : "boolean"
+          },
+          "fone" : {
+            "$ref" : "Fone"
+          },
+          "cadastro" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "locale" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Status" : {
+        "id" : "Status",
+        "type" : "string",
+        "enum" : [ "OK", "INADIMPLENTE", "SUSPENSO" ]
+      },
+      "Fone" : {
+        "id" : "Fone",
+        "type" : "object",
+        "properties" : {
+          "ddi" : {
+            "type" : "string"
+          },
+          "ddd" : {
+            "type" : "string"
+          },
+          "numero" : {
+            "type" : "string"
+          },
+          "tipo" : {
+            "$ref" : "Tipo"
+          },
+          "operadora" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Tipo" : {
+        "id" : "Tipo",
+        "type" : "string",
+        "enum" : [ "FIXO", "MOVEL", "RADIO", "SATELITE" ]
+      },
+      "Sessao" : {
+        "id" : "Sessao",
+        "type" : "object",
+        "properties" : {
+          "usuario" : {
+            "type" : "string"
+          },
+          "codigo" : {
+            "type" : "string"
+          },
+          "expira" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "endereco" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "resposta" : {
+            "$ref" : "_any"
+          }
+        }
+      },
+      "_any" : {
+        "id" : "_any",
+        "type" : "any"
+      },
+      "Noticia" : {
+        "id" : "Noticia",
+        "type" : "object",
+        "properties" : {
+          "codigo" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "texto" : {
+            "type" : "string"
+          },
+          "foto" : {
+            "$ref" : "Text"
+          },
+          "thumb" : {
+            "$ref" : "Text"
+          },
+          "link" : {
+            "$ref" : "Link"
+          },
+          "tipo" : {
+            "$ref" : "Tipo"
+          },
+          "data" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "pais" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Text" : {
+        "id" : "Text",
+        "type" : "object",
+        "properties" : {
+          "value" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Link" : {
+        "id" : "Link",
+        "type" : "object",
+        "properties" : {
+          "value" : {
+            "type" : "string"
+          }
+        }
+      },
+      "NoticiaCollection" : {
+        "id" : "NoticiaCollection",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Noticia"
+            }
+          }
+        }
+      }
+    },
+    "methods" : {
+      "com.brazilboatshare.endpoint.Web.alterarSenhaEsquecida" : {
+        "request" : {
+          "$ref" : "Usuario"
+        }
+      },
+      "com.brazilboatshare.endpoint.Web.alterarCadastro" : {
+        "request" : {
+          "$ref" : "Usuario"
+        },
+        "response" : {
+          "$ref" : "Sessao"
+        }
+      },
+      "com.brazilboatshare.endpoint.Web.alterarSenha" : {
+        "request" : {
+          "$ref" : "Usuario"
+        }
+      },
+      "com.brazilboatshare.endpoint.Web.esqueciSenha" : {
+        "request" : {
+          "$ref" : "Usuario"
+        }
+      },
+      "com.brazilboatshare.endpoint.Web.listarNoticias" : {
+        "response" : {
+          "$ref" : "NoticiaCollection"
+        }
+      },
+      "com.brazilboatshare.endpoint.Web.cadastrar" : {
+        "request" : {
+          "$ref" : "Usuario"
+        }
+      },
+      "com.brazilboatshare.endpoint.Web.continuaCadastro" : {
+        "response" : {
+          "$ref" : "Sessao"
+        }
+      },
+      "com.brazilboatshare.endpoint.Web.listarSaldoConta" : {
+        "response" : {
+          "$ref" : "Sessao"
+        }
+      },
+      "com.brazilboatshare.endpoint.Web.listarExtrato" : {
+        "response" : {
+          "$ref" : "Sessao"
+        }
+      },
+      "com.brazilboatshare.endpoint.Web.login" : {
+        "request" : {
+          "$ref" : "Usuario"
+        },
+        "response" : {
+          "$ref" : "Sessao"
+        }
+      }
+    }
+  }
+}
