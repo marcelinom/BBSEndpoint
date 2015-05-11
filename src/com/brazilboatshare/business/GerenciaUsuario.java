@@ -62,7 +62,11 @@ public class GerenciaUsuario {
 	    		    						new UsuarioDao().save(user);
 	    		    						String link = geraPathConfirmacaoEmail(user);
 	    		    						AcessaEmail.sistemaEnvia(user, Tradutor.traduza(user.getLocale(),"cadastro.assunto.email"), Tradutor.traduza(user.getLocale(),"cadastro.email", url+link));
-	    		    	    				return Cadastro.OK;
+	    		    						// enviar email ao administrador do sistema
+	    		    						AcessaEmail.sistemaEnvia(AcessaEmail.EMAIL_ADMINISTRADOR, AcessaEmail.NOME_ADMINISTRADOR, 
+	    		    								Tradutor.traduza(user.getLocale(),"cadastro.adm.assunto.email"), 
+	    		    								Tradutor.traduza(user.getLocale(),"cadastro.adm.email", user.getApelido(), user.getNome(), user.getSobrenome()));
+	    		    						return Cadastro.OK;
 	    		    					} 
     		    	    				return Cadastro.ERRO_APELIDO;
 	    		    				}
@@ -89,7 +93,7 @@ public class GerenciaUsuario {
 		Locale locale = new Locale(pais.getIdioma().codigo());
 		usuario.setApelido(usuario.getApelido().toLowerCase(locale));
 		usuario.setEmail(usuario.getEmail().toLowerCase(locale));
-		usuario.setStatus(Usuario.Status.INVALIDO);
+		usuario.setStatus(Usuario.Status.INATIVO);
 		
 		usuario.setSalt(Criptografa.generateSalt());
 		usuario.setCriptografada(Criptografa.getEncryptedPassword(usuario.getSenha(), usuario.getSalt()));

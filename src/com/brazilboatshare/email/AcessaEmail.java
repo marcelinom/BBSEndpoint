@@ -20,6 +20,8 @@ public class AcessaEmail {
 	public static String NOME_ORIGEM = "Administrador Brazil Boat Share";
 	public static String EMAIL_ATENDIMENTO = "contato@brazilboatshare.com";
 	public static String NOME_ATENDIMENTO = "Atendimento Brazil Boat Share";
+	public static String EMAIL_ADMINISTRADOR = "contato@brazilboatshare.com";
+	public static String NOME_ADMINISTRADOR = "Administrador Brazil Boat Share";
 		
 	public static void sistemaEnvia(String email, String nome, String assunto, String texto) {
 		Properties props = new Properties();
