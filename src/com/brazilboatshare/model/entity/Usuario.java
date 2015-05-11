@@ -20,7 +20,7 @@ import com.googlecode.objectify.condition.IfNotNull;
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public enum Invalido {APELIDO, NOME, SENHA, EMAIL, FONE, IDIOMA};
-	public enum Status {OK, INATIVO, INADIMPLENTE, SUSPENSO};
+	public enum Status {OK, INATIVO};
 
 	@Id	private String apelido;
 	private String nome;

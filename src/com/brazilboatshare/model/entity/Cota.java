@@ -10,10 +10,12 @@ import com.googlecode.objectify.annotation.Index;
 @Entity
 public class Cota implements Serializable {
 	private static final long serialVersionUID = 1L;
+	public enum Status {OK, INADIMPLENTE, INATIVA};
 	
 	@Id private Long codigo;
 	@Index private String usuario;
 	@Index private String barco;
+	private Status status;
 	private int pontos;					
 	private Date compra;
 	
@@ -23,6 +25,12 @@ public class Cota implements Serializable {
 	}
 	public void setBarco(String barco) {
 		this.barco = barco;
+	}
+	public Status getStatus() {
+		return status;
+	}
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 	public Long getCodigo() {
 		return codigo;

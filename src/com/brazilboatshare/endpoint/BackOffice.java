@@ -3,6 +3,8 @@ package com.brazilboatshare.endpoint;
 import javax.servlet.http.HttpServletRequest;
 
 import com.brazilboatshare.business.GerenciaAdmin;
+import com.brazilboatshare.business.GerenciaBarco;
+import com.brazilboatshare.business.GerenciaCota;
 import com.brazilboatshare.business.GerenciaFinanceira;
 import com.brazilboatshare.business.GerenciaNoticia;
 import com.brazilboatshare.business.GerenciaPais;
@@ -10,6 +12,8 @@ import com.brazilboatshare.exception.ParametroException;
 import com.brazilboatshare.exception.RegraNegocioException;
 import com.brazilboatshare.model.dao.ObjectifyRegistering;
 import com.brazilboatshare.model.entity.Administrador;
+import com.brazilboatshare.model.entity.Barco;
+import com.brazilboatshare.model.entity.Cota;
 import com.brazilboatshare.model.entity.Noticia;
 import com.brazilboatshare.model.entity.Pais;
 import com.brazilboatshare.model.entity.Sessao;
@@ -30,6 +34,24 @@ public class BackOffice {
 	public void salvarPais(Pais pais) throws ParametroException {
 		if (pais.getCodigo() != null) {
 			new GerenciaPais().salvar(pais);
+		} else {
+			throw new ParametroException("102");
+		}
+	}
+	
+	@ApiMethod(name = "barco.cadastrar",path = "barco/cadastrar",httpMethod = HttpMethod.POST)
+	public void salvarBarco(Barco barco) throws ParametroException {
+		if (barco.getNome() != null) {
+			new GerenciaBarco().salvar(barco);
+		} else {
+			throw new ParametroException("102");
+		}
+	}
+	
+	@ApiMethod(name = "cotao.cadastrar",path = "cota/cadastrar",httpMethod = HttpMethod.POST)
+	public void criarCota(Cota cota) throws ParametroException {
+		if (cota.getUsuario() != null) {
+			new GerenciaCota().criar(cota);
 		} else {
 			throw new ParametroException("102");
 		}
