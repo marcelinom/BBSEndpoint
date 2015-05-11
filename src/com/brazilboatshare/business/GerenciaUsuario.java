@@ -1,10 +1,14 @@
 package com.brazilboatshare.business;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,6 +19,7 @@ import com.brazilboatshare.model.dao.Semaforo;
 import com.brazilboatshare.model.dao.TextoPadraoDao;
 import com.brazilboatshare.model.dao.UsuarioDao;
 import com.brazilboatshare.model.entity.Confirmacao;
+import com.brazilboatshare.model.entity.Fone;
 import com.brazilboatshare.model.entity.Local;
 import com.brazilboatshare.model.entity.Pais;
 import com.brazilboatshare.model.entity.Sessao;
@@ -35,6 +40,8 @@ public class GerenciaUsuario {
 	private static final String EMAIL = "email";
 	private static final String[] PATH_CONFIRMA_EMAIL = new String[]{"/confirmaEmail?usuario=","&email=","&codigo="};
 	private static final String[] PATH_ESQUECI_SENHA = new String[]{"http://brazilboatshare.com/entrar.html?login#/esqueci/","/"};
+    private static final Logger LOG = Logger.getLogger(GerenciaUsuario.class.getName());
+	private static final String URL_CONSULTA_TELEIN = "http://consultaoperadora1.telein.com.br/sistema/consulta_detalhada.php?chave=2e1bf9020a4cf5602da5"; 	
 	public static final String ENCODING = "UTF-8";
 	private static final Local LOCAL_DEFAULT = new Local("Sao Paulo", -23.5505199432, -46.6333084106); 
 
@@ -86,14 +93,293 @@ public class GerenciaUsuario {
 		usuario.setSalt(Criptografa.generateSalt());
 		usuario.setCriptografada(Criptografa.getEncryptedPassword(usuario.getSenha(), usuario.getSalt()));
 
+		usuario.setLocale(pais.getIdioma().codigo());	
 		usuario.setEmailConfirmado(false);
+		
 		if (usuario.getFone() != null) {
 			usuario.getFone().setDdi(pais.getCodPaisFone());
+			// identifica tipo telefone e operadora
+			if (usuario.getFone().getDdd() != null) {
+				Fone oper = consultaOperadora(usuario.getFone().getDdd(), usuario.getFone().getNumero());
+				if (oper != null) {
+					usuario.getFone().setOperadora(oper.getOperadora());
+					usuario.getFone().setTipo(oper.getTipo());
+				}
+			}	    		    						
 		}
-		usuario.setLocale(pais.getIdioma().codigo());
 		
 		return usuario;		
 	}
+	
+	public static Fone consultaOperadora(String ddd, String numero) {
+    	Fone fone = new Fone();
+	    try {
+		    String resposta;
+		    String telefone = "&numero="+ddd+numero;
+		    URL url = new URL(URL_CONSULTA_TELEIN+telefone);
+		    BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+		    if ((resposta = reader.readLine()) != null) {
+		    	if (!resposta.contains("Telein.com.br")) {
+		    		fone = identificaOperadora(resposta.split("#")[0].trim());
+		    	} else {
+		    		LOG.info("******* Falha ao consultar Operadora de Telefone: "+resposta);
+		    	}
+	    		fone.setDdd(ddd);
+	    		fone.setNumero(numero);
+		    }
+	    	reader.close();
+		} catch (Exception e) {
+    		fone.setDdd(ddd);
+    		fone.setNumero(numero);
+		}
+    	return fone;
+	}	
+	
+	public static Fone identificaOperadora(String codigo) {
+		if ("551052".equals(codigo)) {
+			return new Fone(Fone.Tipo.RADIO, "IPCORP TELECOM");
+		} else if ("551066".equals(codigo)) {
+			return new Fone(Fone.Tipo.RADIO, "Nextel");
+		} else if ("551087".equals(codigo)) {
+			return new Fone(Fone.Tipo.RADIO, "Superchip Telecom");
+		} else if ("551099".equals(codigo)) {
+			return new Fone(Fone.Tipo.RADIO, "TELEMACOMEX");
+		} else if ("552002".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "51 Brasil");
+		} else if ("552003".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Aerotech");
+		} else if ("552004".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Alpamayo");
+		} else if ("552005".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "America Net");
+		} else if ("552006".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Amigo Telecom");
+		} else if ("552007".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Ava");
+		} else if ("552008".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "BaydeNET");
+		} else if ("552009".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "BBS OPTIONS");
+		} else if ("552010".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "BR Group");
+		} else if ("552011".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "BRASTEL");
+		} else if ("552012".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "BRITISH TELECOM");
+		} else if ("552013".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Cabo Telecom");
+		} else if ("552014".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Cambridge");
+		} else if ("552015".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Cia Itabirana");
+		} else if ("552017".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Conecta");
+		} else if ("552018".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Convergia");
+		} else if ("552019".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "CTBC");
+		} else if ("552020".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Datora");
+		} else if ("552021".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Desktop");
+		} else if ("552022".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Dialdata Telecomunic");
+		} else if ("552023".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Digi Soluções");
+		} else if ("552024".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Dipelnet");
+		} else if ("552025".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Directcall Brasil");
+		} else if ("552026".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "DOLLARPHONE");
+		} else if ("552027".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "DSLI");
+		} else if ("552028".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "EAD");
+		} else if ("552029".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Easytone");
+		} else if ("552030".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Embratel");
+		} else if ("552031".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Encanto");
+		} else if ("552032".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "ENGEVOX");
+		} else if ("552033".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Ensite Telecom");
+		} else if ("552034".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "EPSILON");
+		} else if ("552035".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "ETML");
+		} else if ("552036".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Fidelity");
+		} else if ("552037".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "FONAR");
+		} else if ("552038".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "G30");
+		} else if ("552039".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "GLOBAL CROSSING");
+		} else if ("552041".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Goiás Telecom");
+		} else if ("552042".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "GOLDEN LINE TELECOM");
+		} else if ("552043".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Grupo G1");
+		} else if ("552044".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "GT GROUP");
+		} else if ("552045".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "GTI Telecom");
+		} else if ("552046".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "GVT");
+		} else if ("552047".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Hello Brazil");
+		} else if ("552048".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Hit Telecom");
+		} else if ("552049".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Hoje Participações");
+		} else if ("552050".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "IDT Brasil");
+		} else if ("552051".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Intelig Telecom");
+		} else if ("552052".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "IPCORP TELECOM");
+		} else if ("552054".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Itavoice");
+		} else if ("552055".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "iVATi");
+		} else if ("552056".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "LIFE Telecom");
+		} else if ("552057".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Ligue Telecom");
+		} else if ("552058".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Local");
+		} else if ("552059".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Locaweb Telecom");
+		} else if ("552060".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Maha-Tel Telecom");
+		} else if ("552061".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Metroweb");
+		} else if ("552062".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Mundivox");
+		} else if ("552063".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "NE BALESTRA");
+		} else if ("552064".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Neo Telecom");
+		} else if ("552065".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "NETGLOBALIS");
+		} else if ("552067".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "NEXUS");
+		} else if ("552068".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "NORTELPA S.A.");
+		} else if ("552069".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "NWI");
+		} else if ("552070".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "OI");
+		} else if ("552072".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "OpçãoNet");
+		} else if ("552073".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "OPTION TELECOM");
+		} else if ("552074".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Osi Telecom");
+		} else if ("552075".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Ostara Telecom");
+		} else if ("552076".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Plumium");
+		} else if ("552078".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Porto Velho Telecom");
+		} else if ("552079".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Rede Networks");
+		} else if ("552080".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Remota Comunicações");
+		} else if ("552081".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "RSTSUL");
+		} else if ("552082".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Sercomtel");
+		} else if ("552084".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Smart Telecom");
+		} else if ("552085".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Spin Telecom");
+		} else if ("552086".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Sul Internet");
+		} else if ("552088".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "SuperTV");
+		} else if ("552089".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Suporte Tecnologia");
+		} else if ("552090".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "T-LESTE TELECOM");
+		} else if ("552091".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "T.P.A");
+		} else if ("552093".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Telecall");
+		} else if ("552094".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "TELECOM 65");
+		} else if ("552095".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "TELECOMDADOS");
+		} else if ("552097".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Telefônica Brasil");
+		} else if ("552098".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Telefree");
+		} else if ("552100".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Teletel Callip");
+		} else if ("552101".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "TESA");
+		} else if ("552102".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "TIM");
+		} else if ("552103".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Tinerhir");
+		} else if ("552104".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Tmais");
+		} else if ("552105".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Transit");
+		} else if ("552106".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Ultranet Telecomunic");
+		} else if ("552108".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "VIA REAL TELECOM");
+		} else if ("552109".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Viacom");
+		} else if ("552110".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Vipnet");
+		} else if ("552111".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Vipway");
+		} else if ("552112".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Visãonet");
+		} else if ("552113".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "Voitel");
+		} else if ("552114".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "VOX");
+		} else if ("552115".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "VOXBRAS");
+		} else if ("552116".equals(codigo)) {
+			return new Fone(Fone.Tipo.FIXO, "TVN");
+		} else if ("553009".equals(codigo)) {
+			return new Fone(Fone.Tipo.MOVEL, "BBS OPTIONS");
+		} else if ("553016".equals(codigo)) {
+			return new Fone(Fone.Tipo.MOVEL, "Claro");
+		} else if ("553019".equals(codigo)) {
+			return new Fone(Fone.Tipo.MOVEL, "CTBC");
+		} else if ("553020".equals(codigo)) {
+			return new Fone(Fone.Tipo.MOVEL, "Datora");
+		} else if ("553066".equals(codigo)) {
+			return new Fone(Fone.Tipo.MOVEL, "Nextel");
+		} else if ("553070".equals(codigo)) {
+			return new Fone(Fone.Tipo.MOVEL, "OI");
+		} else if ("553077".equals(codigo)) {
+			return new Fone(Fone.Tipo.MOVEL, "Porto Conecta");
+		} else if ("553082".equals(codigo)) {
+			return new Fone(Fone.Tipo.MOVEL, "Sercomtel");
+		} else if ("553083".equals(codigo)) {
+			return new Fone(Fone.Tipo.MOVEL, "SISTEER");
+		} else if ("553097".equals(codigo)) {
+			return new Fone(Fone.Tipo.MOVEL, "Telefônica Brasil");
+		} else if ("553102".equals(codigo)) {
+			return new Fone(Fone.Tipo.MOVEL, "TIM");
+		} else if ("553107".equals(codigo)) {
+			return new Fone(Fone.Tipo.MOVEL, "UNICEL");
+		} else if ("554040".equals(codigo)) {
+			return new Fone(Fone.Tipo.SATELITE, "GLOBALSTAR");
+		} else {
+			return new Fone();
+		}
+	}	
 	
 	public String geraSenha() {
 		char[] caracteres = new char[]{'a','b','c','d','e','f','g','h','i','j','k','l',

@@ -31,6 +31,7 @@ public class Usuario implements Serializable {
 	private byte[] salt;							// added to the user’s password as part of the hashing
 	@Index(IfNotNull.class) private String email;
 	private boolean emailConfirmado;				// se o email ja foi confirmado pelo usuario
+	private boolean verificado;						// se o usuario realmente eh cliente 
 	private Fone fone;
 	private Date cadastro;
 	private String locale;							//identificar idioma do usuario Ex.:'pt'
@@ -49,6 +50,14 @@ public class Usuario implements Serializable {
 		this.nome = paraPerfil.getNome();
 		this.sobrenome = paraPerfil.getSobrenome();
 		this.cadastro = paraPerfil.getCadastro();
+	}
+
+	public boolean isVerificado() {
+		return verificado;
+	}
+
+	public void setVerificado(boolean verificado) {
+		this.verificado = verificado;
 	}
 
 	public Status getStatus() {
