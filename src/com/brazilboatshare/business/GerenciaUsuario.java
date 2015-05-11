@@ -89,6 +89,7 @@ public class GerenciaUsuario {
 		Locale locale = new Locale(pais.getIdioma().codigo());
 		usuario.setApelido(usuario.getApelido().toLowerCase(locale));
 		usuario.setEmail(usuario.getEmail().toLowerCase(locale));
+		usuario.setStatus(Usuario.Status.INVALIDO);
 		
 		usuario.setSalt(Criptografa.generateSalt());
 		usuario.setCriptografada(Criptografa.getEncryptedPassword(usuario.getSenha(), usuario.getSalt()));

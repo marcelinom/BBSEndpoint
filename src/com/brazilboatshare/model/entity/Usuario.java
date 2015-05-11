@@ -20,7 +20,7 @@ import com.googlecode.objectify.condition.IfNotNull;
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public enum Invalido {APELIDO, NOME, SENHA, EMAIL, FONE, IDIOMA};
-	public enum Status {OK, INADIMPLENTE, SUSPENSO};
+	public enum Status {OK, INVALIDO, INADIMPLENTE, SUSPENSO};
 
 	@Id	private String apelido;
 	private String nome;
@@ -31,7 +31,6 @@ public class Usuario implements Serializable {
 	private byte[] salt;							// added to the user’s password as part of the hashing
 	@Index(IfNotNull.class) private String email;
 	private boolean emailConfirmado;				// se o email ja foi confirmado pelo usuario
-	private boolean verificado;						// se o usuario realmente eh cliente 
 	private Fone fone;
 	private Date cadastro;
 	private String locale;							//identificar idioma do usuario Ex.:'pt'
@@ -50,14 +49,6 @@ public class Usuario implements Serializable {
 		this.nome = paraPerfil.getNome();
 		this.sobrenome = paraPerfil.getSobrenome();
 		this.cadastro = paraPerfil.getCadastro();
-	}
-
-	public boolean isVerificado() {
-		return verificado;
-	}
-
-	public void setVerificado(boolean verificado) {
-		this.verificado = verificado;
 	}
 
 	public Status getStatus() {

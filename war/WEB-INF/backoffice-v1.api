@@ -40,14 +40,14 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "backoffice.tipocontabil.cadastrar" : {
-      "path" : "tipocontabil/cadastrar",
+    "backoffice.pais.cadastrar" : {
+      "path" : "pais/cadastrar",
       "httpMethod" : "POST",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil",
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarPais",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -88,14 +88,14 @@
         "body" : "empty"
       }
     },
-    "backoffice.pais.cadastrar" : {
-      "path" : "pais/cadastrar",
+    "backoffice.tipocontabil.cadastrar" : {
+      "path" : "tipocontabil/cadastrar",
       "httpMethod" : "POST",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarPais",
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -140,9 +140,6 @@
           "emailConfirmado" : {
             "type" : "boolean"
           },
-          "verificado" : {
-            "type" : "boolean"
-          },
           "fone" : {
             "$ref" : "Fone"
           },
@@ -158,7 +155,7 @@
       "Status" : {
         "id" : "Status",
         "type" : "string",
-        "enum" : [ "OK", "INADIMPLENTE", "SUSPENSO" ]
+        "enum" : [ "OK", "INVALIDO", "INADIMPLENTE", "SUSPENSO" ]
       },
       "Fone" : {
         "id" : "Fone",
@@ -215,29 +212,45 @@
         "id" : "_any",
         "type" : "any"
       },
-      "TipoContabil" : {
-        "id" : "TipoContabil",
+      "Pais" : {
+        "id" : "Pais",
         "type" : "object",
         "properties" : {
           "codigo" : {
             "type" : "string"
           },
-          "descricao" : {
+          "nome" : {
             "type" : "string"
           },
-          "conversao" : {
-            "$ref" : "BigDecimal"
+          "moeda" : {
+            "$ref" : "Moeda"
+          },
+          "idioma" : {
+            "$ref" : "Idioma"
+          },
+          "sistemaMetrico" : {
+            "type" : "boolean"
+          },
+          "codPaisFone" : {
+            "type" : "string"
+          },
+          "codPais" : {
+            "type" : "string"
+          },
+          "timezone" : {
+            "type" : "string"
           }
         }
       },
-      "BigDecimal" : {
-        "id" : "BigDecimal",
-        "type" : "object",
-        "properties" : {
-          "scale" : {
-            "type" : "integer"
-          }
-        }
+      "Moeda" : {
+        "id" : "Moeda",
+        "type" : "string",
+        "enum" : [ "Real", "Dólar" ]
+      },
+      "Idioma" : {
+        "id" : "Idioma",
+        "type" : "string",
+        "enum" : [ "Português", "Español", "English" ]
       },
       "Noticia" : {
         "id" : "Noticia",
@@ -325,45 +338,29 @@
           }
         }
       },
-      "Pais" : {
-        "id" : "Pais",
+      "TipoContabil" : {
+        "id" : "TipoContabil",
         "type" : "object",
         "properties" : {
           "codigo" : {
             "type" : "string"
           },
-          "nome" : {
+          "descricao" : {
             "type" : "string"
           },
-          "moeda" : {
-            "$ref" : "Moeda"
-          },
-          "idioma" : {
-            "$ref" : "Idioma"
-          },
-          "sistemaMetrico" : {
-            "type" : "boolean"
-          },
-          "codPaisFone" : {
-            "type" : "string"
-          },
-          "codPais" : {
-            "type" : "string"
-          },
-          "timezone" : {
-            "type" : "string"
+          "conversao" : {
+            "$ref" : "BigDecimal"
           }
         }
       },
-      "Moeda" : {
-        "id" : "Moeda",
-        "type" : "string",
-        "enum" : [ "Real", "Dólar" ]
-      },
-      "Idioma" : {
-        "id" : "Idioma",
-        "type" : "string",
-        "enum" : [ "Português", "Español", "English" ]
+      "BigDecimal" : {
+        "id" : "BigDecimal",
+        "type" : "object",
+        "properties" : {
+          "scale" : {
+            "type" : "integer"
+          }
+        }
       }
     },
     "methods" : {
@@ -375,9 +372,9 @@
           "$ref" : "Sessao"
         }
       },
-      "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil" : {
+      "com.brazilboatshare.endpoint.BackOffice.salvarPais" : {
         "request" : {
-          "$ref" : "TipoContabil"
+          "$ref" : "Pais"
         }
       },
       "com.brazilboatshare.endpoint.BackOffice.postarNoticia" : {
@@ -393,9 +390,9 @@
           "$ref" : "Administrador"
         }
       },
-      "com.brazilboatshare.endpoint.BackOffice.salvarPais" : {
+      "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil" : {
         "request" : {
-          "$ref" : "Pais"
+          "$ref" : "TipoContabil"
         }
       }
     }

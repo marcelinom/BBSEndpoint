@@ -14,8 +14,8 @@ import com.brazilboatshare.model.entity.Sessao;
 
 public class ConfirmaEmail extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String URL_LOGIN = "http://brazilboatshare.appspot.com/#/confirmaEmail/";
-	private static final String URL_ERRO_VALIDACAO = "http://brazilboatshare.appspot.com/#/naoConfirmaEmail/";
+	private static final String URL_LOGIN = "http://brazilboatshare.appspot.com/entrar.html#/confirmaEmail/";
+	private static final String URL_ERRO_VALIDACAO = "http://brazilboatshare.appspot.com/entrar.html#/naoConfirmaEmail/";
 	private static final String PARAM_EMAIL = "email";
 	private static final String PARAM_USUARIO = "usuario";
 	private static final String PARAM_CODIGO = "codigo";
