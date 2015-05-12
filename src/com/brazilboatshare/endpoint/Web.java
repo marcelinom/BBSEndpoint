@@ -36,7 +36,7 @@ public class Web {
 	}
 
 	@ApiMethod(name = "perfil.buscar",path = "perfil/buscar",httpMethod = HttpMethod.GET)
-	public Sessao buscarPerfilCaminhoneiro(@Named("usuario") String usuario, @Named("perfil") String perfil, @Named("sessao") String sessao, HttpServletRequest req) throws ParametroException, RegraNegocioException {
+	public Sessao buscarPerfil(@Named("usuario") String usuario, @Named("perfil") String perfil, @Named("sessao") String sessao, HttpServletRequest req) throws ParametroException, RegraNegocioException {
 		Sessao session = GerenciaSessao.renova(usuario, sessao, req.getRemoteAddr());
 		session.setResposta(new GerenciaUsuario().buscarPerfil(perfil));
 		return session;

@@ -212,35 +212,6 @@
         "body" : "empty"
       }
     },
-    "web.perfil.buscar" : {
-      "path" : "perfil/buscar",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.Web.buscarPerfilCaminhoneiro",
-      "request" : {
-        "parameters" : {
-          "usuario" : {
-            "type" : "string",
-            "required" : true
-          },
-          "perfil" : {
-            "type" : "string",
-            "required" : true
-          },
-          "sessao" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
     "web.usuario.senha.esqueci.alterar" : {
       "path" : "usuario/senha/esqueci/alterar",
       "httpMethod" : "PUT",
@@ -261,6 +232,35 @@
       },
       "response" : {
         "body" : "empty"
+      }
+    },
+    "web.perfil.buscar" : {
+      "path" : "perfil/buscar",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.buscarPerfil",
+      "request" : {
+        "parameters" : {
+          "usuario" : {
+            "type" : "string",
+            "required" : true
+          },
+          "perfil" : {
+            "type" : "string",
+            "required" : true
+          },
+          "sessao" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
       }
     }
   },
@@ -489,14 +489,14 @@
           "$ref" : "Usuario"
         }
       },
-      "com.brazilboatshare.endpoint.Web.buscarPerfilCaminhoneiro" : {
-        "response" : {
-          "$ref" : "Sessao"
-        }
-      },
       "com.brazilboatshare.endpoint.Web.alterarSenhaEsquecida" : {
         "request" : {
           "$ref" : "Usuario"
+        }
+      },
+      "com.brazilboatshare.endpoint.Web.buscarPerfil" : {
+        "response" : {
+          "$ref" : "Sessao"
         }
       }
     }
