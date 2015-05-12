@@ -48,7 +48,7 @@ public class BackOffice {
 		}
 	}
 	
-	@ApiMethod(name = "cotao.cadastrar",path = "cota/cadastrar",httpMethod = HttpMethod.POST)
+	@ApiMethod(name = "cota.cadastrar",path = "cota/cadastrar",httpMethod = HttpMethod.POST)
 	public void criarCota(Cota cota) throws ParametroException {
 		if (cota.getUsuario() != null) {
 			new GerenciaCota().criar(cota);

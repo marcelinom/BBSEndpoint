@@ -72,20 +72,20 @@
         "body" : "empty"
       }
     },
-    "backoffice.noticia.postar" : {
-      "path" : "noticia/postar",
+    "backoffice.barco.cadastrar" : {
+      "path" : "barco/cadastrar",
       "httpMethod" : "POST",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.postarNoticia",
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarBarco",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
       },
       "response" : {
-        "body" : "autoTemplate(backendResponse)"
+        "body" : "empty"
       }
     },
     "backoffice.cadastrar.admin" : {
@@ -104,23 +104,23 @@
         "body" : "empty"
       }
     },
-    "backoffice.barco.cadastrar" : {
-      "path" : "barco/cadastrar",
+    "backoffice.noticia.postar" : {
+      "path" : "noticia/postar",
       "httpMethod" : "POST",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarBarco",
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.postarNoticia",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
       },
       "response" : {
-        "body" : "empty"
+        "body" : "autoTemplate(backendResponse)"
       }
     },
-    "backoffice.cotao.cadastrar" : {
+    "backoffice.cota.cadastrar" : {
       "path" : "cota/cadastrar",
       "httpMethod" : "POST",
       "authLevel" : "NONE",
@@ -308,6 +308,73 @@
         "type" : "string",
         "enum" : [ "Português", "Español", "English" ]
       },
+      "Barco" : {
+        "id" : "Barco",
+        "type" : "object",
+        "properties" : {
+          "nome" : {
+            "type" : "string"
+          },
+          "tipo" : {
+            "$ref" : "Tipo"
+          },
+          "ativa" : {
+            "type" : "boolean"
+          },
+          "pes" : {
+            "type" : "integer"
+          },
+          "modelo" : {
+            "type" : "string"
+          },
+          "fabricante" : {
+            "type" : "string"
+          },
+          "cotas" : {
+            "type" : "integer"
+          },
+          "cadastro" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "Administrador" : {
+        "id" : "Administrador",
+        "type" : "object",
+        "properties" : {
+          "apelido" : {
+            "type" : "string"
+          },
+          "nome" : {
+            "type" : "string"
+          },
+          "sobrenome" : {
+            "type" : "string"
+          },
+          "senha" : {
+            "type" : "string"
+          },
+          "pssMst" : {
+            "type" : "string"
+          },
+          "criptografada" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "salt" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "cadastro" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
       "Noticia" : {
         "id" : "Noticia",
         "type" : "object",
@@ -358,73 +425,6 @@
           }
         }
       },
-      "Administrador" : {
-        "id" : "Administrador",
-        "type" : "object",
-        "properties" : {
-          "apelido" : {
-            "type" : "string"
-          },
-          "nome" : {
-            "type" : "string"
-          },
-          "sobrenome" : {
-            "type" : "string"
-          },
-          "senha" : {
-            "type" : "string"
-          },
-          "pssMst" : {
-            "type" : "string"
-          },
-          "criptografada" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "salt" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "email" : {
-            "type" : "string"
-          },
-          "cadastro" : {
-            "type" : "string",
-            "format" : "date-time"
-          }
-        }
-      },
-      "Barco" : {
-        "id" : "Barco",
-        "type" : "object",
-        "properties" : {
-          "nome" : {
-            "type" : "string"
-          },
-          "tipo" : {
-            "$ref" : "Tipo"
-          },
-          "ativa" : {
-            "type" : "boolean"
-          },
-          "pes" : {
-            "type" : "integer"
-          },
-          "modelo" : {
-            "type" : "string"
-          },
-          "fabricante" : {
-            "type" : "string"
-          },
-          "cotas" : {
-            "type" : "integer"
-          },
-          "cadastro" : {
-            "type" : "string",
-            "format" : "date-time"
-          }
-        }
-      },
       "Cota" : {
         "id" : "Cota",
         "type" : "object",
@@ -471,12 +471,9 @@
           "$ref" : "Pais"
         }
       },
-      "com.brazilboatshare.endpoint.BackOffice.postarNoticia" : {
+      "com.brazilboatshare.endpoint.BackOffice.salvarBarco" : {
         "request" : {
-          "$ref" : "Noticia"
-        },
-        "response" : {
-          "$ref" : "Noticia"
+          "$ref" : "Barco"
         }
       },
       "com.brazilboatshare.endpoint.BackOffice.cadastrarAdmin" : {
@@ -484,9 +481,12 @@
           "$ref" : "Administrador"
         }
       },
-      "com.brazilboatshare.endpoint.BackOffice.salvarBarco" : {
+      "com.brazilboatshare.endpoint.BackOffice.postarNoticia" : {
         "request" : {
-          "$ref" : "Barco"
+          "$ref" : "Noticia"
+        },
+        "response" : {
+          "$ref" : "Noticia"
         }
       },
       "com.brazilboatshare.endpoint.BackOffice.criarCota" : {

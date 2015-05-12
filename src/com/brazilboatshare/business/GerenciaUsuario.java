@@ -663,12 +663,16 @@ public class GerenciaUsuario {
 	
 	private Usuario concedeAcesso(Usuario user) throws RegraNegocioException {
 		if (user.isEmailConfirmado()) {
-			new GerenciaFinanceira().registraAcesso(user);
-			// evitar envio de dados sensiveis ou desnecessarios
-			user.setSalt(null);
-			user.setCriptografada(null);
-			user.setSenha(null);			
-			return user;
+			if (Usuario.Status.INATIVO.equals(user.getStatus())) {
+				throw new RegraNegocioException("501");
+			} else {
+				new GerenciaFinanceira().registraAcesso(user);
+				// evitar envio de dados sensiveis ou desnecessarios
+				user.setSalt(null);
+				user.setCriptografada(null);
+				user.setSenha(null);			
+				return user;
+			}
 		} else {
 			throw new RegraNegocioException("533");
 		}

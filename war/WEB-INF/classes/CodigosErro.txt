@@ -1,6 +1,6 @@
 102 - Parametro informado invalido...
 
-501 - Frete nao localizado
+501 - Usuario ainda nao ativado
 502 - Este frete nao pode ser finalizado... 
 503 - Rastreio não autorizado!
 504 - Dados informados para o acordo inválidos

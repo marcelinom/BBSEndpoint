@@ -62,6 +62,31 @@
         "body" : "empty"
       }
     },
+    "web.conta.saldo.listar" : {
+      "path" : "conta/saldo/listar",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.listarSaldoConta",
+      "request" : {
+        "parameters" : {
+          "usuario" : {
+            "type" : "string",
+            "required" : true
+          },
+          "sessao" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
     "web.usuario.renovar" : {
       "path" : "usuario/renovar",
       "httpMethod" : "GET",
@@ -109,22 +134,6 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "web.usuario.senha.esqueci" : {
-      "path" : "usuario/senha/esqueci",
-      "httpMethod" : "PUT",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.Web.esqueciSenha",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
     "web.noticia.listar" : {
       "path" : "noticia/listar",
       "httpMethod" : "GET",
@@ -168,6 +177,22 @@
         "body" : "empty"
       }
     },
+    "web.usuario.senha.esqueci" : {
+      "path" : "usuario/senha/esqueci",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.esqueciSenha",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
     "web.cadastrar.usuario" : {
       "path" : "cadastrar/usuario",
       "httpMethod" : "POST",
@@ -192,31 +217,6 @@
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
       "rosyMethod" : "com.brazilboatshare.endpoint.Web.listarExtrato",
-      "request" : {
-        "parameters" : {
-          "usuario" : {
-            "type" : "string",
-            "required" : true
-          },
-          "sessao" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "web.conta.saldo.listar" : {
-      "path" : "conta/saldo/listar",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.Web.listarSaldoConta",
       "request" : {
         "parameters" : {
           "usuario" : {
@@ -419,6 +419,11 @@
           "$ref" : "Usuario"
         }
       },
+      "com.brazilboatshare.endpoint.Web.listarSaldoConta" : {
+        "response" : {
+          "$ref" : "Sessao"
+        }
+      },
       "com.brazilboatshare.endpoint.Web.continuaCadastro" : {
         "response" : {
           "$ref" : "Sessao"
@@ -432,11 +437,6 @@
           "$ref" : "Sessao"
         }
       },
-      "com.brazilboatshare.endpoint.Web.esqueciSenha" : {
-        "request" : {
-          "$ref" : "Usuario"
-        }
-      },
       "com.brazilboatshare.endpoint.Web.listarNoticias" : {
         "response" : {
           "$ref" : "NoticiaCollection"
@@ -447,17 +447,17 @@
           "$ref" : "Usuario"
         }
       },
+      "com.brazilboatshare.endpoint.Web.esqueciSenha" : {
+        "request" : {
+          "$ref" : "Usuario"
+        }
+      },
       "com.brazilboatshare.endpoint.Web.cadastrar" : {
         "request" : {
           "$ref" : "Usuario"
         }
       },
       "com.brazilboatshare.endpoint.Web.listarExtrato" : {
-        "response" : {
-          "$ref" : "Sessao"
-        }
-      },
-      "com.brazilboatshare.endpoint.Web.listarSaldoConta" : {
         "response" : {
           "$ref" : "Sessao"
         }
