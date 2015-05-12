@@ -651,6 +651,18 @@ public class GerenciaUsuario {
 		return null;
 	}
 	
+	public Usuario buscarPerfil(String usuario) {
+		Usuario perfil = null;
+		if (usuario != null) {
+			perfil = buscarUsuario(usuario);
+			if (perfil != null) {
+				perfil.eliminaSensiveis();;
+			}
+		}
+		
+		return perfil;
+	}	
+	
 	public Sessao login(String usuario, String senha, String ip, boolean registroMobile) throws RegraNegocioException {
 		if (usuario != null && senha != null) {
 			Usuario user = buscarUsuario(usuario);
@@ -668,9 +680,7 @@ public class GerenciaUsuario {
 			} else {
 				new GerenciaFinanceira().registraAcesso(user);
 				// evitar envio de dados sensiveis ou desnecessarios
-				user.setSalt(null);
-				user.setCriptografada(null);
-				user.setSenha(null);			
+				user.eliminaSensiveis();
 				return user;
 			}
 		} else {

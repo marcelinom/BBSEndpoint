@@ -8,6 +8,7 @@ import org.owasp.html.PolicyFactory;
 import org.owasp.html.Sanitizers;
 
 import com.brazilboatshare.util.Valida;
+import com.google.appengine.api.datastore.Text;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.googlecode.objectify.annotation.Entity;
@@ -25,7 +26,8 @@ public class Usuario implements Serializable {
 	@Id	private String apelido;
 	private String nome;
 	private String sobrenome;
-	private Status status;
+	private Text foto;
+	private Usuario.Status status;
 	@Ignore private String senha;					// senha original, em texto limpo
 	private byte[] criptografada;					// senha criptografada
 	private byte[] salt;							// added to the user’s password as part of the hashing
@@ -51,12 +53,20 @@ public class Usuario implements Serializable {
 		this.cadastro = paraPerfil.getCadastro();
 	}
 
-	public Status getStatus() {
+	public Usuario.Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(Usuario.Status status) {
 		this.status = status;
+	}
+
+	public Text getFoto() {
+		return foto;
+	}
+
+	public void setFoto(Text foto) {
+		this.foto = foto;
 	}
 
 	public String getApelido() {
@@ -137,7 +147,6 @@ public class Usuario implements Serializable {
 		this.senha = null;		
 		this.criptografada = null;	
 		this.salt = null;				
-		this.cadastro = null;
 	}
 	public Invalido invalido() {
 		if (apelido == null || !Valida.username(apelido)) 

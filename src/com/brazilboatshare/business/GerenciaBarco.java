@@ -13,6 +13,7 @@ public class GerenciaBarco {
 			if (barco.getCotas() > 0) {
 				barco.setAtiva(true);
 			}
+			barco.setNome(barco.getNome().toLowerCase());
 			barco.setCadastro(new Date());
 			new BarcoDao().save(barco);
 		}		

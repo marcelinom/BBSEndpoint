@@ -10,7 +10,7 @@ import com.googlecode.objectify.annotation.Index;
 @Entity
 public class Cota implements Serializable {
 	private static final long serialVersionUID = 1L;
-	public enum Status {OK, INADIMPLENTE, INATIVA};
+	public enum Status {OK, INADIMPLENTE, CANCELADA};
 	
 	@Id private Long codigo;
 	@Index private String usuario;
