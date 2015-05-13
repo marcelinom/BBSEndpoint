@@ -27,6 +27,7 @@ public class Usuario implements Serializable {
 	private String nome;
 	private String sobrenome;
 	private Text foto;
+	private Endereco endereco;
 	private Usuario.Status status;
 	@Ignore private String senha;					// senha original, em texto limpo
 	private byte[] criptografada;					// senha criptografada
@@ -75,6 +76,14 @@ public class Usuario implements Serializable {
 	public void setApelido(String apelido) {
 		this.apelido = apelido;
 	}
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
 	public String getNome() {
 		return nome;
 	}
@@ -217,6 +226,16 @@ public class Usuario implements Serializable {
 			if (usuario.sobrenome != null)
 				return false;
 		} else if (!sobrenome.equals(usuario.sobrenome))
+			return false;
+		if (foto == null) {
+			if (usuario.foto != null)
+				return false;
+		} else if (!foto.equals(usuario.foto))
+			return false;
+		if (endereco == null) {
+			if (usuario.endereco != null)
+				return false;
+		} else if (!endereco.equals(usuario.endereco))
 			return false;
 		return true;
 	}

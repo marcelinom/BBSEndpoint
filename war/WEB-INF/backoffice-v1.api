@@ -40,6 +40,38 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
+    "backoffice.tipocontabil.cadastrar" : {
+      "path" : "tipocontabil/cadastrar",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "backoffice.cadastrar.admin" : {
+      "path" : "cadastrar/admin",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.cadastrarAdmin",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
     "backoffice.noticia.postar" : {
       "path" : "noticia/postar",
       "httpMethod" : "POST",
@@ -54,6 +86,22 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "backoffice.cota.cadastrar" : {
+      "path" : "cota/cadastrar",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.criarCota",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
       }
     },
     "backoffice.pais.cadastrar" : {
@@ -87,54 +135,6 @@
       "response" : {
         "body" : "empty"
       }
-    },
-    "backoffice.cota.cadastrar" : {
-      "path" : "cota/cadastrar",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.criarCota",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
-    "backoffice.cadastrar.admin" : {
-      "path" : "cadastrar/admin",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.cadastrarAdmin",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
-    "backoffice.tipocontabil.cadastrar" : {
-      "path" : "tipocontabil/cadastrar",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "empty"
-      }
     }
   },
   "descriptor" : {
@@ -154,6 +154,9 @@
           },
           "foto" : {
             "$ref" : "Text"
+          },
+          "endereco" : {
+            "$ref" : "Endereco"
           },
           "status" : {
             "$ref" : "Status"
@@ -192,6 +195,27 @@
         "type" : "object",
         "properties" : {
           "value" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Endereco" : {
+        "id" : "Endereco",
+        "type" : "object",
+        "properties" : {
+          "logradouro" : {
+            "type" : "string"
+          },
+          "cidade" : {
+            "type" : "string"
+          },
+          "estado" : {
+            "type" : "string"
+          },
+          "pais" : {
+            "type" : "string"
+          },
+          "cep" : {
             "type" : "string"
           }
         }
@@ -256,6 +280,66 @@
         "id" : "_any",
         "type" : "any"
       },
+      "TipoContabil" : {
+        "id" : "TipoContabil",
+        "type" : "object",
+        "properties" : {
+          "codigo" : {
+            "type" : "string"
+          },
+          "descricao" : {
+            "type" : "string"
+          },
+          "conversao" : {
+            "$ref" : "BigDecimal"
+          }
+        }
+      },
+      "BigDecimal" : {
+        "id" : "BigDecimal",
+        "type" : "object",
+        "properties" : {
+          "scale" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "Administrador" : {
+        "id" : "Administrador",
+        "type" : "object",
+        "properties" : {
+          "apelido" : {
+            "type" : "string"
+          },
+          "nome" : {
+            "type" : "string"
+          },
+          "sobrenome" : {
+            "type" : "string"
+          },
+          "senha" : {
+            "type" : "string"
+          },
+          "pssMst" : {
+            "type" : "string"
+          },
+          "criptografada" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "salt" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "cadastro" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
       "Noticia" : {
         "id" : "Noticia",
         "type" : "object",
@@ -294,6 +378,32 @@
         "properties" : {
           "value" : {
             "type" : "string"
+          }
+        }
+      },
+      "Cota" : {
+        "id" : "Cota",
+        "type" : "object",
+        "properties" : {
+          "codigo" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "usuario" : {
+            "type" : "string"
+          },
+          "barco" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "Status"
+          },
+          "pontos" : {
+            "type" : "integer"
+          },
+          "compra" : {
+            "type" : "string",
+            "format" : "date-time"
           }
         }
       },
@@ -367,92 +477,6 @@
             "format" : "date-time"
           }
         }
-      },
-      "Cota" : {
-        "id" : "Cota",
-        "type" : "object",
-        "properties" : {
-          "codigo" : {
-            "type" : "string",
-            "format" : "int64"
-          },
-          "usuario" : {
-            "type" : "string"
-          },
-          "barco" : {
-            "type" : "string"
-          },
-          "status" : {
-            "$ref" : "Status"
-          },
-          "pontos" : {
-            "type" : "integer"
-          },
-          "compra" : {
-            "type" : "string",
-            "format" : "date-time"
-          }
-        }
-      },
-      "Administrador" : {
-        "id" : "Administrador",
-        "type" : "object",
-        "properties" : {
-          "apelido" : {
-            "type" : "string"
-          },
-          "nome" : {
-            "type" : "string"
-          },
-          "sobrenome" : {
-            "type" : "string"
-          },
-          "senha" : {
-            "type" : "string"
-          },
-          "pssMst" : {
-            "type" : "string"
-          },
-          "criptografada" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "salt" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "email" : {
-            "type" : "string"
-          },
-          "cadastro" : {
-            "type" : "string",
-            "format" : "date-time"
-          }
-        }
-      },
-      "TipoContabil" : {
-        "id" : "TipoContabil",
-        "type" : "object",
-        "properties" : {
-          "codigo" : {
-            "type" : "string"
-          },
-          "descricao" : {
-            "type" : "string"
-          },
-          "conversao" : {
-            "$ref" : "BigDecimal"
-          }
-        }
-      },
-      "BigDecimal" : {
-        "id" : "BigDecimal",
-        "type" : "object",
-        "properties" : {
-          "scale" : {
-            "type" : "integer"
-          }
-        }
       }
     },
     "methods" : {
@@ -464,12 +488,27 @@
           "$ref" : "Sessao"
         }
       },
+      "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil" : {
+        "request" : {
+          "$ref" : "TipoContabil"
+        }
+      },
+      "com.brazilboatshare.endpoint.BackOffice.cadastrarAdmin" : {
+        "request" : {
+          "$ref" : "Administrador"
+        }
+      },
       "com.brazilboatshare.endpoint.BackOffice.postarNoticia" : {
         "request" : {
           "$ref" : "Noticia"
         },
         "response" : {
           "$ref" : "Noticia"
+        }
+      },
+      "com.brazilboatshare.endpoint.BackOffice.criarCota" : {
+        "request" : {
+          "$ref" : "Cota"
         }
       },
       "com.brazilboatshare.endpoint.BackOffice.salvarPais" : {
@@ -480,21 +519,6 @@
       "com.brazilboatshare.endpoint.BackOffice.salvarBarco" : {
         "request" : {
           "$ref" : "Barco"
-        }
-      },
-      "com.brazilboatshare.endpoint.BackOffice.criarCota" : {
-        "request" : {
-          "$ref" : "Cota"
-        }
-      },
-      "com.brazilboatshare.endpoint.BackOffice.cadastrarAdmin" : {
-        "request" : {
-          "$ref" : "Administrador"
-        }
-      },
-      "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil" : {
-        "request" : {
-          "$ref" : "TipoContabil"
         }
       }
     }

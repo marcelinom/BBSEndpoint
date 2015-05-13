@@ -100,20 +100,25 @@ public class GerenciaUsuario {
 
 		usuario.setLocale(pais.getIdioma().codigo());	
 		usuario.setEmailConfirmado(false);
+
+		usuario.getFone().setDdi(pais.getCodPaisFone());
+		atualizaFone(usuario.getFone());
 		
-		if (usuario.getFone() != null) {
-			usuario.getFone().setDdi(pais.getCodPaisFone());
+		return usuario;		
+	}
+	
+	public Fone atualizaFone(Fone fone) {
+		if (fone != null) {
 			// identifica tipo telefone e operadora
-			if (usuario.getFone().getDdd() != null) {
-				Fone oper = consultaOperadora(usuario.getFone().getDdd(), usuario.getFone().getNumero());
+			if (fone.getDdd() != null) {
+				Fone oper = consultaOperadora(fone.getDdd(), fone.getNumero());
 				if (oper != null) {
-					usuario.getFone().setOperadora(oper.getOperadora());
-					usuario.getFone().setTipo(oper.getTipo());
+					fone.setOperadora(oper.getOperadora());
+					fone.setTipo(oper.getTipo());
 				}
 			}	    		    						
 		}
-		
-		return usuario;		
+		return fone;
 	}
 	
 	public static Fone consultaOperadora(String ddd, String numero) {
@@ -569,9 +574,12 @@ public class GerenciaUsuario {
 			novo.setSalt(antigo.getSalt());
 			novo.setApelido(antigo.getApelido());
 			novo.setEmailConfirmado(antigo.isEmailConfirmado());
-			novo.setFone(antigo.getFone());
 			novo.setLocale(antigo.getLocale());
 			if (!novo.igual(antigo)) {
+				if (!antigo.getFone().equals(novo.getFone())) {
+					atualizaFone(novo.getFone());
+				}
+				
 				if (!antigo.getEmail().equals(novo.getEmail())) {
 					final String url = URLUtil.getURLRequest(req);
 					Cadastro status = new Semaforo<Cadastro>(Semaforo.CADASTRAR_EMAIL, novo.getEmail()).ativar(
