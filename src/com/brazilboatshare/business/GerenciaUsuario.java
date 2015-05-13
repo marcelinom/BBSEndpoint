@@ -579,6 +579,10 @@ public class GerenciaUsuario {
 				if (!antigo.getFone().equals(novo.getFone())) {
 					atualizaFone(novo.getFone());
 				}
+				if (novo.getEndereco() != null && novo.getEndereco().getLogradouro() != null) {
+					novo.getEndereco().setPais(obtemPais(null).getCodigo());
+					novo.getEndereco().setEstado(novo.getEndereco().getEstado().toUpperCase());
+				}
 				
 				if (!antigo.getEmail().equals(novo.getEmail())) {
 					final String url = URLUtil.getURLRequest(req);

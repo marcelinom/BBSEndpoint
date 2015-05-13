@@ -19,6 +19,14 @@ public class GerenciaBarco {
 		}		
 	}
 	
+	public Barco buscar(String nome) {
+		if (nome != null) {
+			return new BarcoDao().get(nome);
+		}		
+		
+		return null;
+	}
+	
 	public void excluir(Barco barco) {
 		if (barco != null) {
 			new BarcoDao().delete(barco);

@@ -40,30 +40,14 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "backoffice.tipocontabil.cadastrar" : {
-      "path" : "tipocontabil/cadastrar",
+    "backoffice.pais.cadastrar" : {
+      "path" : "pais/cadastrar",
       "httpMethod" : "POST",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
-    "backoffice.cadastrar.admin" : {
-      "path" : "cadastrar/admin",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.cadastrarAdmin",
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarPais",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -88,6 +72,22 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
+    "backoffice.barco.cadastrar" : {
+      "path" : "barco/cadastrar",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarBarco",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
     "backoffice.cota.cadastrar" : {
       "path" : "cota/cadastrar",
       "httpMethod" : "POST",
@@ -104,14 +104,14 @@
         "body" : "empty"
       }
     },
-    "backoffice.pais.cadastrar" : {
-      "path" : "pais/cadastrar",
+    "backoffice.cadastrar.admin" : {
+      "path" : "cadastrar/admin",
       "httpMethod" : "POST",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarPais",
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.cadastrarAdmin",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -120,14 +120,14 @@
         "body" : "empty"
       }
     },
-    "backoffice.barco.cadastrar" : {
-      "path" : "barco/cadastrar",
+    "backoffice.tipocontabil.cadastrar" : {
+      "path" : "tipocontabil/cadastrar",
       "httpMethod" : "POST",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarBarco",
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -280,65 +280,45 @@
         "id" : "_any",
         "type" : "any"
       },
-      "TipoContabil" : {
-        "id" : "TipoContabil",
+      "Pais" : {
+        "id" : "Pais",
         "type" : "object",
         "properties" : {
           "codigo" : {
             "type" : "string"
           },
-          "descricao" : {
-            "type" : "string"
-          },
-          "conversao" : {
-            "$ref" : "BigDecimal"
-          }
-        }
-      },
-      "BigDecimal" : {
-        "id" : "BigDecimal",
-        "type" : "object",
-        "properties" : {
-          "scale" : {
-            "type" : "integer"
-          }
-        }
-      },
-      "Administrador" : {
-        "id" : "Administrador",
-        "type" : "object",
-        "properties" : {
-          "apelido" : {
-            "type" : "string"
-          },
           "nome" : {
             "type" : "string"
           },
-          "sobrenome" : {
+          "moeda" : {
+            "$ref" : "Moeda"
+          },
+          "idioma" : {
+            "$ref" : "Idioma"
+          },
+          "sistemaMetrico" : {
+            "type" : "boolean"
+          },
+          "codPaisFone" : {
             "type" : "string"
           },
-          "senha" : {
+          "codPais" : {
             "type" : "string"
           },
-          "pssMst" : {
+          "timezone" : {
             "type" : "string"
-          },
-          "criptografada" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "salt" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "email" : {
-            "type" : "string"
-          },
-          "cadastro" : {
-            "type" : "string",
-            "format" : "date-time"
           }
         }
+      },
+      "Moeda" : {
+        "id" : "Moeda",
+        "type" : "string",
+        "enum" : [ "Real", "Dólar" ]
+      },
+      "Idioma" : {
+        "id" : "Idioma",
+        "type" : "string",
+        "enum" : [ "Português", "Español", "English" ]
       },
       "Noticia" : {
         "id" : "Noticia",
@@ -381,6 +361,85 @@
           }
         }
       },
+      "Barco" : {
+        "id" : "Barco",
+        "type" : "object",
+        "properties" : {
+          "nome" : {
+            "type" : "string"
+          },
+          "modelo" : {
+            "type" : "string"
+          },
+          "ativa" : {
+            "type" : "boolean"
+          },
+          "cotas" : {
+            "type" : "integer"
+          },
+          "cadastro" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "valor" : {
+            "$ref" : "BigDecimal"
+          },
+          "taxa" : {
+            "$ref" : "BigDecimal"
+          },
+          "ano" : {
+            "type" : "integer"
+          },
+          "marina" : {
+            "$ref" : "Referencia"
+          },
+          "cidade" : {
+            "$ref" : "Local"
+          },
+          "descricao" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "BigDecimal" : {
+        "id" : "BigDecimal",
+        "type" : "object",
+        "properties" : {
+          "scale" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "Referencia" : {
+        "id" : "Referencia",
+        "type" : "object",
+        "properties" : {
+          "descricao" : {
+            "type" : "string"
+          },
+          "site" : {
+            "$ref" : "Link"
+          }
+        }
+      },
+      "Local" : {
+        "id" : "Local",
+        "type" : "object",
+        "properties" : {
+          "descricao" : {
+            "type" : "string"
+          },
+          "lat" : {
+            "type" : "number"
+          },
+          "lng" : {
+            "type" : "number"
+          }
+        }
+      },
       "Cota" : {
         "id" : "Cota",
         "type" : "object",
@@ -404,77 +463,60 @@
           "compra" : {
             "type" : "string",
             "format" : "date-time"
+          },
+          "atual" : {
+            "type" : "string"
           }
         }
       },
-      "Pais" : {
-        "id" : "Pais",
+      "Administrador" : {
+        "id" : "Administrador",
+        "type" : "object",
+        "properties" : {
+          "apelido" : {
+            "type" : "string"
+          },
+          "nome" : {
+            "type" : "string"
+          },
+          "sobrenome" : {
+            "type" : "string"
+          },
+          "senha" : {
+            "type" : "string"
+          },
+          "pssMst" : {
+            "type" : "string"
+          },
+          "criptografada" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "salt" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "cadastro" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "TipoContabil" : {
+        "id" : "TipoContabil",
         "type" : "object",
         "properties" : {
           "codigo" : {
             "type" : "string"
           },
-          "nome" : {
+          "descricao" : {
             "type" : "string"
           },
-          "moeda" : {
-            "$ref" : "Moeda"
-          },
-          "idioma" : {
-            "$ref" : "Idioma"
-          },
-          "sistemaMetrico" : {
-            "type" : "boolean"
-          },
-          "codPaisFone" : {
-            "type" : "string"
-          },
-          "codPais" : {
-            "type" : "string"
-          },
-          "timezone" : {
-            "type" : "string"
-          }
-        }
-      },
-      "Moeda" : {
-        "id" : "Moeda",
-        "type" : "string",
-        "enum" : [ "Real", "Dólar" ]
-      },
-      "Idioma" : {
-        "id" : "Idioma",
-        "type" : "string",
-        "enum" : [ "Português", "Español", "English" ]
-      },
-      "Barco" : {
-        "id" : "Barco",
-        "type" : "object",
-        "properties" : {
-          "nome" : {
-            "type" : "string"
-          },
-          "tipo" : {
-            "$ref" : "Tipo"
-          },
-          "ativa" : {
-            "type" : "boolean"
-          },
-          "pes" : {
-            "type" : "integer"
-          },
-          "modelo" : {
-            "type" : "string"
-          },
-          "fabricante" : {
-            "type" : "string"
-          },
-          "cotas" : {
-            "type" : "integer"
-          },
-          "cadastro" : {
-            "type" : "string",
-            "format" : "date-time"
+          "conversao" : {
+            "$ref" : "BigDecimal"
           }
         }
       }
@@ -488,14 +530,9 @@
           "$ref" : "Sessao"
         }
       },
-      "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil" : {
+      "com.brazilboatshare.endpoint.BackOffice.salvarPais" : {
         "request" : {
-          "$ref" : "TipoContabil"
-        }
-      },
-      "com.brazilboatshare.endpoint.BackOffice.cadastrarAdmin" : {
-        "request" : {
-          "$ref" : "Administrador"
+          "$ref" : "Pais"
         }
       },
       "com.brazilboatshare.endpoint.BackOffice.postarNoticia" : {
@@ -506,19 +543,24 @@
           "$ref" : "Noticia"
         }
       },
+      "com.brazilboatshare.endpoint.BackOffice.salvarBarco" : {
+        "request" : {
+          "$ref" : "Barco"
+        }
+      },
       "com.brazilboatshare.endpoint.BackOffice.criarCota" : {
         "request" : {
           "$ref" : "Cota"
         }
       },
-      "com.brazilboatshare.endpoint.BackOffice.salvarPais" : {
+      "com.brazilboatshare.endpoint.BackOffice.cadastrarAdmin" : {
         "request" : {
-          "$ref" : "Pais"
+          "$ref" : "Administrador"
         }
       },
-      "com.brazilboatshare.endpoint.BackOffice.salvarBarco" : {
+      "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil" : {
         "request" : {
-          "$ref" : "Barco"
+          "$ref" : "TipoContabil"
         }
       }
     }

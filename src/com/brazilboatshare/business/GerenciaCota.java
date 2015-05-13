@@ -55,8 +55,8 @@ public class GerenciaCota {
 		}		
 	}
 	
-	public List<Cota> listar() {
-		return new CotaDao().list(null, null, null);
+	public List<Cota> listaCotasUsuario(String usuario) {
+		return new CotaDao().lista(usuario);
 	}
 		
 }

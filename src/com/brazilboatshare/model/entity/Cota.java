@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
 
 @Entity
@@ -18,6 +19,7 @@ public class Cota implements Serializable {
 	private Status status;
 	private int pontos;					
 	private Date compra;
+	@Ignore private String atual;				// auxilio para navegacao no site
 	
 	
 	public String getBarco() {
@@ -37,6 +39,12 @@ public class Cota implements Serializable {
 	}
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
+	}
+	public String getAtual() {
+		return atual;
+	}
+	public void setAtual(String atual) {
+		this.atual = atual;
 	}
 	public String getUsuario() {
 		return usuario;

@@ -1,7 +1,9 @@
 package com.brazilboatshare.model.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -9,16 +11,18 @@ import com.googlecode.objectify.annotation.Id;
 @Entity
 public class Barco implements Serializable {
 	private static final long serialVersionUID = 1L;
-	public enum Tipo {VELEIRO, LANCHA, TRAWLER};
 	
 	@Id private String nome;
-	private Tipo tipo;
+	private String modelo;			// chave para projeto do barco
 	private boolean ativa;
-	private int pes;
-	private String modelo;
-	private String fabricante;
-	private int cotas;					
-	private Date cadastro;
+	private int cotas;				// numero total de cotistas		
+	private Date cadastro;			// quando foi incluido no sistema
+	private BigDecimal valor;		// valor de venda da cota
+	private BigDecimal taxa;		// valor do condominio
+	private int ano;				// ano de contrucao. Negativo se novo
+	private Referencia marina;		// marina onde fica o barco
+	private Local cidade;			// cidade da marina
+	private List<String> descricao;	// Linhas de descricao dos itens exclusivos
 	
 	public String getNome() {
 		return nome;
@@ -26,35 +30,29 @@ public class Barco implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public boolean isAtiva() {
-		return ativa;
-	}
-	public void setAtiva(boolean ativa) {
-		this.ativa = ativa;
-	}
-	public Tipo getTipo() {
-		return tipo;
-	}
-	public void setTipo(Tipo tipo) {
-		this.tipo = tipo;
-	}
-	public int getPes() {
-		return pes;
-	}
-	public void setPes(int pes) {
-		this.pes = pes;
-	}
 	public String getModelo() {
 		return modelo;
 	}
 	public void setModelo(String modelo) {
 		this.modelo = modelo;
 	}
-	public String getFabricante() {
-		return fabricante;
+	public Referencia getMarina() {
+		return marina;
 	}
-	public void setFabricante(String fabricante) {
-		this.fabricante = fabricante;
+	public void setMarina(Referencia marina) {
+		this.marina = marina;
+	}
+	public List<String> getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(List<String> descricao) {
+		this.descricao = descricao;
+	}
+	public boolean isAtiva() {
+		return ativa;
+	}
+	public void setAtiva(boolean ativa) {
+		this.ativa = ativa;
 	}
 	public int getCotas() {
 		return cotas;
@@ -67,6 +65,30 @@ public class Barco implements Serializable {
 	}
 	public void setCadastro(Date cadastro) {
 		this.cadastro = cadastro;
+	}
+	public Local getCidade() {
+		return cidade;
+	}
+	public void setCidade(Local cidade) {
+		this.cidade = cidade;
+	}
+	public BigDecimal getValor() {
+		return valor;
+	}
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
+	}
+	public BigDecimal getTaxa() {
+		return taxa;
+	}
+	public void setTaxa(BigDecimal taxa) {
+		this.taxa = taxa;
+	}
+	public int getAno() {
+		return ano;
+	}
+	public void setAno(int ano) {
+		this.ano = ano;
 	}
 	@Override
 	public int hashCode() {
@@ -91,6 +113,6 @@ public class Barco implements Serializable {
 			return false;
 		return true;
 	}
-
+	
 
 }

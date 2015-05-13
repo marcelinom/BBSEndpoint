@@ -5,6 +5,8 @@ import java.util.List;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
+import com.brazilboatshare.business.GerenciaBarco;
+import com.brazilboatshare.business.GerenciaCota;
 import com.brazilboatshare.business.GerenciaFinanceira;
 import com.brazilboatshare.business.GerenciaNoticia;
 import com.brazilboatshare.business.GerenciaSessao;
@@ -12,6 +14,7 @@ import com.brazilboatshare.business.GerenciaUsuario;
 import com.brazilboatshare.exception.ParametroException;
 import com.brazilboatshare.exception.RegraNegocioException;
 import com.brazilboatshare.model.dao.ObjectifyRegistering;
+import com.brazilboatshare.model.entity.Barco;
 import com.brazilboatshare.model.entity.Noticia;
 import com.brazilboatshare.model.entity.Sessao;
 import com.brazilboatshare.model.entity.Usuario;
@@ -119,6 +122,26 @@ public class Web {
 			Sessao session = GerenciaSessao.renova(usuario, sessao, req.getRemoteAddr());
 			session.setResposta(new GerenciaFinanceira().saldoContaCorrente(usuario));
 			return session;
+		} else {
+			throw new ParametroException("102");
+		}
+	}
+	
+	@ApiMethod(name = "cota.usuario.listar",path = "cota/usuario/listar",httpMethod = HttpMethod.GET)
+	public Sessao listaCostasPorUsuario(@Named("usuario")String usuario, @Named("sessao") String sessao, HttpServletRequest req) throws ParametroException, RegraNegocioException {
+		if (usuario != null) {
+			Sessao session = GerenciaSessao.renova(usuario, sessao, req.getRemoteAddr());
+			session.setResposta(new GerenciaCota().listaCotasUsuario(usuario));
+			return session;
+		} else {
+			throw new ParametroException("102");
+		}
+	}
+	
+	@ApiMethod(name = "barco.buscar",path = "barco/buscar",httpMethod = HttpMethod.GET)
+	public Barco buscarBarco(@Named("nome") String barco) throws ParametroException {
+		if (barco != null) {
+			return new GerenciaBarco().buscar(barco);
 		} else {
 			throw new ParametroException("102");
 		}

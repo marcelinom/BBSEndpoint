@@ -1,0 +1,59 @@
+package com.brazilboatshare.model.entity;
+
+import java.io.Serializable;
+
+import com.google.appengine.api.datastore.Link;
+import com.googlecode.objectify.annotation.Embed;
+
+@Embed
+public class Referencia implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	private String descricao;
+	private Link site;
+	
+	public String getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	public Link getSite() {
+		return site;
+	}
+	public void setSite(Link site) {
+		this.site = site;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((descricao == null) ? 0 : descricao.hashCode());
+		result = prime * result + ((site == null) ? 0 : site.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Referencia other = (Referencia) obj;
+		if (descricao == null) {
+			if (other.descricao != null)
+				return false;
+		} else if (!descricao.equals(other.descricao))
+			return false;
+		if (site == null) {
+			if (other.site != null)
+				return false;
+		} else if (!site.equals(other.site))
+			return false;
+		return true;
+	}
+	
+}
+ 
