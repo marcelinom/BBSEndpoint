@@ -19,7 +19,6 @@ public class GerenciaBarco {
 			}
 			Projeto modelo = new ProjetoDao().get(barco.getModelo());
 			if (modelo != null) {
-				barco.setNome(barco.getNome().toLowerCase());
 				barco.setCadastro(new Date());
 				new BarcoDao().save(barco);
 			} else {
@@ -30,7 +29,6 @@ public class GerenciaBarco {
 	
 	public void salvar(Projeto modelo) {
 		if (modelo != null && modelo.getNome() != null) {
-			modelo.setNome(modelo.getNome().toLowerCase());
 			new ProjetoDao().save(modelo);
 		}		
 	}

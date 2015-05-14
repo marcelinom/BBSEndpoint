@@ -18,7 +18,7 @@ public class Projeto implements Serializable {
 	@Index private Tipo tipo;
 	@Index private int pes;
 	private String titulo;			// caracteristica principal do barco
-	private List<String> descricao;	// Linhas de descricao dos itens principais
+	private List<String> descricao;	// Linhas de descricao das caracteristicas
 	private String autor;			// projetista e qualificacoes	
 	
 	public String getNome() {

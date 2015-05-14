@@ -28,7 +28,7 @@ public class Usuario implements Serializable {
 	private String sobrenome;
 	private Text foto;
 	private Endereco endereco;
-	private Usuario.Status status;
+	private Usuario.Status status;					// apenas para controle de cadastro inicial
 	@Ignore private String senha;					// senha original, em texto limpo
 	private byte[] criptografada;					// senha criptografada
 	private byte[] salt;							// added to the user’s password as part of the hashing
@@ -36,7 +36,8 @@ public class Usuario implements Serializable {
 	private boolean emailConfirmado;				// se o email ja foi confirmado pelo usuario
 	private Fone fone;
 	private Date cadastro;
-	private String locale;							//identificar idioma do usuario Ex.:'pt'
+	private String locale;							// identificar idioma do usuario Ex.:'pt'
+	private Identidade doc;							// codigo e emissor de um doc de identificacao
 	
 	public Usuario() {
 		this.cadastro = new Date();
@@ -60,6 +61,14 @@ public class Usuario implements Serializable {
 
 	public void setStatus(Usuario.Status status) {
 		this.status = status;
+	}
+
+	public Identidade getDoc() {
+		return doc;
+	}
+
+	public void setDoc(Identidade doc) {
+		this.doc = doc;
 	}
 
 	public Text getFoto() {

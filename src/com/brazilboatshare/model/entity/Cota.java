@@ -19,6 +19,7 @@ public class Cota implements Serializable {
 	private Status status;
 	private int pontos;					
 	private Date compra;
+	private String dependente;					// dependente do proprietario
 	@Ignore private String atual;				// auxilio para navegacao no site
 	
 	
@@ -33,6 +34,12 @@ public class Cota implements Serializable {
 	}
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+	public String getDependente() {
+		return dependente;
+	}
+	public void setDependente(String dependente) {
+		this.dependente = dependente;
 	}
 	public Long getCodigo() {
 		return codigo;

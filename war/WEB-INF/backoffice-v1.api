@@ -40,38 +40,6 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "backoffice.tipocontabil.cadastrar" : {
-      "path" : "tipocontabil/cadastrar",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
-    "backoffice.cadastrar.admin" : {
-      "path" : "cadastrar/admin",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.cadastrarAdmin",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
     "backoffice.pais.cadastrar" : {
       "path" : "pais/cadastrar",
       "httpMethod" : "POST",
@@ -136,6 +104,22 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
+    "backoffice.cadastrar.admin" : {
+      "path" : "cadastrar/admin",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.cadastrarAdmin",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
     "backoffice.projeto.cadastrar" : {
       "path" : "projeto/cadastrar",
       "httpMethod" : "POST",
@@ -144,6 +128,22 @@
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
       "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarProjeto",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "backoffice.tipocontabil.cadastrar" : {
+      "path" : "tipocontabil/cadastrar",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -203,6 +203,9 @@
           },
           "locale" : {
             "type" : "string"
+          },
+          "doc" : {
+            "$ref" : "Identidade"
           }
         }
       },
@@ -267,6 +270,21 @@
         "type" : "string",
         "enum" : [ "FIXO", "MOVEL", "RADIO", "SATELITE" ]
       },
+      "Identidade" : {
+        "id" : "Identidade",
+        "type" : "object",
+        "properties" : {
+          "codigo" : {
+            "type" : "string"
+          },
+          "emissor" : {
+            "type" : "string"
+          },
+          "tipo" : {
+            "$ref" : "Tipo"
+          }
+        }
+      },
       "Sessao" : {
         "id" : "Sessao",
         "type" : "object",
@@ -295,66 +313,6 @@
       "_any" : {
         "id" : "_any",
         "type" : "any"
-      },
-      "TipoContabil" : {
-        "id" : "TipoContabil",
-        "type" : "object",
-        "properties" : {
-          "codigo" : {
-            "type" : "string"
-          },
-          "descricao" : {
-            "type" : "string"
-          },
-          "conversao" : {
-            "$ref" : "BigDecimal"
-          }
-        }
-      },
-      "BigDecimal" : {
-        "id" : "BigDecimal",
-        "type" : "object",
-        "properties" : {
-          "scale" : {
-            "type" : "integer"
-          }
-        }
-      },
-      "Administrador" : {
-        "id" : "Administrador",
-        "type" : "object",
-        "properties" : {
-          "apelido" : {
-            "type" : "string"
-          },
-          "nome" : {
-            "type" : "string"
-          },
-          "sobrenome" : {
-            "type" : "string"
-          },
-          "senha" : {
-            "type" : "string"
-          },
-          "pssMst" : {
-            "type" : "string"
-          },
-          "criptografada" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "salt" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "email" : {
-            "type" : "string"
-          },
-          "cadastro" : {
-            "type" : "string",
-            "format" : "date-time"
-          }
-        }
       },
       "Pais" : {
         "id" : "Pais",
@@ -420,6 +378,9 @@
             "type" : "string",
             "format" : "date-time"
           },
+          "dependente" : {
+            "type" : "string"
+          },
           "atual" : {
             "type" : "string"
           }
@@ -465,6 +426,15 @@
             "items" : {
               "type" : "string"
             }
+          }
+        }
+      },
+      "BigDecimal" : {
+        "id" : "BigDecimal",
+        "type" : "object",
+        "properties" : {
+          "scale" : {
+            "type" : "integer"
           }
         }
       },
@@ -536,6 +506,42 @@
           }
         }
       },
+      "Administrador" : {
+        "id" : "Administrador",
+        "type" : "object",
+        "properties" : {
+          "apelido" : {
+            "type" : "string"
+          },
+          "nome" : {
+            "type" : "string"
+          },
+          "sobrenome" : {
+            "type" : "string"
+          },
+          "senha" : {
+            "type" : "string"
+          },
+          "pssMst" : {
+            "type" : "string"
+          },
+          "criptografada" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "salt" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "cadastro" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
       "Projeto" : {
         "id" : "Projeto",
         "type" : "object",
@@ -565,6 +571,21 @@
             "type" : "string"
           }
         }
+      },
+      "TipoContabil" : {
+        "id" : "TipoContabil",
+        "type" : "object",
+        "properties" : {
+          "codigo" : {
+            "type" : "string"
+          },
+          "descricao" : {
+            "type" : "string"
+          },
+          "conversao" : {
+            "$ref" : "BigDecimal"
+          }
+        }
       }
     },
     "methods" : {
@@ -574,16 +595,6 @@
         },
         "response" : {
           "$ref" : "Sessao"
-        }
-      },
-      "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil" : {
-        "request" : {
-          "$ref" : "TipoContabil"
-        }
-      },
-      "com.brazilboatshare.endpoint.BackOffice.cadastrarAdmin" : {
-        "request" : {
-          "$ref" : "Administrador"
         }
       },
       "com.brazilboatshare.endpoint.BackOffice.salvarPais" : {
@@ -609,9 +620,19 @@
           "$ref" : "Noticia"
         }
       },
+      "com.brazilboatshare.endpoint.BackOffice.cadastrarAdmin" : {
+        "request" : {
+          "$ref" : "Administrador"
+        }
+      },
       "com.brazilboatshare.endpoint.BackOffice.salvarProjeto" : {
         "request" : {
           "$ref" : "Projeto"
+        }
+      },
+      "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil" : {
+        "request" : {
+          "$ref" : "TipoContabil"
         }
       }
     }
