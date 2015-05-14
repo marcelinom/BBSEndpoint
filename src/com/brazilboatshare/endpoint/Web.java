@@ -14,7 +14,7 @@ import com.brazilboatshare.business.GerenciaUsuario;
 import com.brazilboatshare.exception.ParametroException;
 import com.brazilboatshare.exception.RegraNegocioException;
 import com.brazilboatshare.model.dao.ObjectifyRegistering;
-import com.brazilboatshare.model.entity.Barco;
+import com.brazilboatshare.model.dto.ViewBarco;
 import com.brazilboatshare.model.entity.Noticia;
 import com.brazilboatshare.model.entity.Sessao;
 import com.brazilboatshare.model.entity.Usuario;
@@ -139,9 +139,9 @@ public class Web {
 	}
 	
 	@ApiMethod(name = "barco.buscar",path = "barco/buscar",httpMethod = HttpMethod.GET)
-	public Barco buscarBarco(@Named("nome") String barco) throws ParametroException {
+	public ViewBarco buscarBarco(@Named("nome") String barco) throws ParametroException {
 		if (barco != null) {
-			return new GerenciaBarco().buscar(barco);
+			return new GerenciaBarco().buscarViewBarco(barco);
 		} else {
 			throw new ParametroException("102");
 		}

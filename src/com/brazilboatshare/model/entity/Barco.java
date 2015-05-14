@@ -7,13 +7,14 @@ import java.util.List;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 @Entity
 public class Barco implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id private String nome;
-	private String modelo;			// chave para projeto do barco
+	@Index private String modelo;	// chave para projeto do barco
 	private boolean ativa;
 	private int cotas;				// numero total de cotistas		
 	private Date cadastro;			// quando foi incluido no sistema
@@ -21,7 +22,7 @@ public class Barco implements Serializable {
 	private BigDecimal taxa;		// valor do condominio
 	private int ano;				// ano de contrucao. Negativo se novo
 	private Referencia marina;		// marina onde fica o barco
-	private Local cidade;			// cidade da marina
+	@Index private Local cidade;	// cidade da marina
 	private List<String> descricao;	// Linhas de descricao dos itens exclusivos
 	
 	public String getNome() {

@@ -16,6 +16,7 @@ import com.brazilboatshare.model.entity.Barco;
 import com.brazilboatshare.model.entity.Cota;
 import com.brazilboatshare.model.entity.Noticia;
 import com.brazilboatshare.model.entity.Pais;
+import com.brazilboatshare.model.entity.Projeto;
 import com.brazilboatshare.model.entity.Sessao;
 import com.brazilboatshare.model.entity.TipoContabil;
 import com.brazilboatshare.model.entity.Usuario;
@@ -40,9 +41,18 @@ public class BackOffice {
 	}
 	
 	@ApiMethod(name = "barco.cadastrar",path = "barco/cadastrar",httpMethod = HttpMethod.POST)
-	public void salvarBarco(Barco barco) throws ParametroException {
+	public void salvarBarco(Barco barco) throws ParametroException, RegraNegocioException {
 		if (barco.getNome() != null) {
 			new GerenciaBarco().salvar(barco);
+		} else {
+			throw new ParametroException("102");
+		}
+	}
+	
+	@ApiMethod(name = "projeto.cadastrar",path = "projeto/cadastrar",httpMethod = HttpMethod.POST)
+	public void salvarProjeto(Projeto modelo) throws ParametroException {
+		if (modelo.getNome() != null) {
+			new GerenciaBarco().salvar(modelo);
 		} else {
 			throw new ParametroException("102");
 		}
