@@ -52,6 +52,21 @@ public class Web {
 		return session;
 	}
 	
+	@ApiMethod(name = "dependente.incluir",path = "dependente/incluir",httpMethod = HttpMethod.PUT)
+	public Sessao incluirDependente(@Named("usuario") String usuario, @Named("cota") Long cota, @Named("dep") String dependente, @Named("sessao") String sessao, HttpServletRequest req) throws ParametroException, RegraNegocioException {
+		Sessao session = GerenciaSessao.renova(usuario, sessao, req.getRemoteAddr());
+		Usuario candidato = new GerenciaUsuario().buscarUsuario(dependente);
+		session.setResposta(new GerenciaCota().incluirDependente(cota, candidato));
+		return session;
+	}
+	
+	@ApiMethod(name = "dependente.excluir",path = "dependente/excluir",httpMethod = HttpMethod.DELETE)
+	public Sessao excluirDependente(@Named("usuario") String usuario, @Named("cota") Long cota, @Named("sessao") String sessao, HttpServletRequest req) throws ParametroException, RegraNegocioException {
+		Sessao session = GerenciaSessao.renova(usuario, sessao, req.getRemoteAddr());
+		new GerenciaCota().excluirDependente(cota);
+		return session;
+	}
+	
 	@ApiMethod(name = "cadastrar.usuario",path = "cadastrar/usuario",httpMethod = HttpMethod.POST)
 	public void cadastrar(Usuario usuario, HttpServletRequest req) throws RegraNegocioException {
 		new GerenciaUsuario().cadastrar(usuario, req);

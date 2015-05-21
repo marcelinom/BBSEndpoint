@@ -672,7 +672,7 @@ public class GerenciaUsuario {
 		return null;
 	}
 	
-	private Usuario buscarUsuario(String codigo) {
+	public Usuario buscarUsuario(String codigo) {
 		if (codigo != null) {
 			codigo = codigo.toLowerCase();
 	        if (codigo.contains("@")) {

@@ -6,11 +6,14 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.brazilboatshare.email.AcessaEmail;
+import com.brazilboatshare.exception.RegraNegocioException;
 import com.brazilboatshare.model.dao.BarcoDao;
 import com.brazilboatshare.model.dao.CotaDao;
+import com.brazilboatshare.model.dao.DependenteDao;
 import com.brazilboatshare.model.dao.UsuarioDao;
 import com.brazilboatshare.model.entity.Barco;
 import com.brazilboatshare.model.entity.Cota;
+import com.brazilboatshare.model.entity.Dependente;
 import com.brazilboatshare.model.entity.Usuario;
 import com.brazilboatshare.util.Tradutor;
 
@@ -58,13 +61,55 @@ public class GerenciaCota {
 	public Usuario buscarDependente(Long cota) {
 		Usuario dependente = null;
 		if (cota != null) {
-			dependente = buscarUsuario(usuario);
-			if (perfil != null) {
-				perfil.eliminaSensiveis();;
+			Cota prop = new CotaDao().get(cota);
+			if (prop != null && prop.getDependente() != null) {
+				dependente = new UsuarioDao().get(prop.getDependente());	
+				if (dependente != null) {
+					dependente.eliminaSensiveis();
+				}
 			}
 		}
 		
 		return dependente;
+	}		
+	
+	public Usuario incluirDependente(Long cota, Usuario usuario) throws RegraNegocioException {
+		if (usuario != null) {
+			if (cota != null) {
+				Cota prop = new CotaDao().get(cota);
+				if (prop != null && prop.getDependente() == null) {
+					if (!prop.getUsuario().equals(usuario.getApelido())) {
+						prop.setDependente(usuario.getApelido());
+						new DependenteDao().salva(new Dependente(usuario.getApelido(), prop.getCodigo()), prop);
+						usuario.setStatus(Usuario.Status.OK);
+						new UsuarioDao().save(usuario);
+						usuario.eliminaSensiveis();
+						return usuario;
+					} else {
+						throw new RegraNegocioException("504");
+					}
+				}
+			}
+			return null;
+		} else {
+			throw new RegraNegocioException("543");
+		}
+	}		
+	
+	public void excluirDependente(Long cota) {
+		if (cota != null) {
+			Cota prop = new CotaDao().get(cota);
+			if (prop != null) {
+				prop.setDependente(null);
+				
+				DependenteDao dDao = new DependenteDao();
+				Dependente dep = dDao.buscar(prop.getCodigo());
+				if (dep != null) {
+					dep.setExclusao(new Date());
+					dDao.salva(dep, prop);
+				}
+			}
+		}
 	}		
 	
 	public List<Cota> listaCotasUsuario(String usuario) {

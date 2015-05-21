@@ -17,6 +17,10 @@ public class CotaDao extends ObjectifyDao<Cota> {
 			List<FiltroPesquisa> filtro = new ArrayList<FiltroPesquisa>();
 			filtro.add(new FiltroPesquisa("usuario", usuario));
 			List<Cota> cotas = list(filtro, null, null);
+			// acrescentar as cotas que tem acesso como dependente
+			filtro.clear();
+			filtro.add(new FiltroPesquisa("dependente", usuario));
+			cotas.addAll(list(filtro, null, null));
 			if (cotas != null) {
 				boolean primeiro = true;
 				for (Cota cota : cotas) {

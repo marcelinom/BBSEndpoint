@@ -14,12 +14,12 @@ public class Cota implements Serializable {
 	public enum Status {OK, INADIMPLENTE, CANCELADA};
 	
 	@Id private Long codigo;
-	@Index private String usuario;
+	@Index private String usuario;				// proprietario da cota
 	@Index private String barco;
 	private Status status;
 	private int pontos;					
 	private Date compra;
-	private String dependente;					// dependente do proprietario
+	@Index private String dependente;			// dependente do proprietario
 	@Ignore private String atual;				// auxilio para navegacao no site
 	
 	
