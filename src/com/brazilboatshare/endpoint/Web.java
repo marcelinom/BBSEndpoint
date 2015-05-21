@@ -45,6 +45,13 @@ public class Web {
 		return session;
 	}
 	
+	@ApiMethod(name = "dependente.buscar",path = "dependente/buscar",httpMethod = HttpMethod.GET)
+	public Sessao buscarDependente(@Named("usuario") String usuario, @Named("cota") Long cota, @Named("sessao") String sessao, HttpServletRequest req) throws ParametroException, RegraNegocioException {
+		Sessao session = GerenciaSessao.renova(usuario, sessao, req.getRemoteAddr());
+		session.setResposta(new GerenciaCota().buscarDependente(cota));
+		return session;
+	}
+	
 	@ApiMethod(name = "cadastrar.usuario",path = "cadastrar/usuario",httpMethod = HttpMethod.POST)
 	public void cadastrar(Usuario usuario, HttpServletRequest req) throws RegraNegocioException {
 		new GerenciaUsuario().cadastrar(usuario, req);
@@ -63,6 +70,28 @@ public class Web {
 		Sessao session = GerenciaSessao.renova(usuario.getApelido(), sessao, req.getRemoteAddr());
 		if (usuario.getApelido() != null) {
 			session.setResposta(new GerenciaUsuario().alterarCadastro(usuario, req));
+			return session;
+		} else {
+			throw new ParametroException("102");
+		} 
+	}
+	
+	@ApiMethod(name = "usuario.documento.alterar",path = "usuario/documento/alterar",httpMethod = HttpMethod.PUT)
+	public Sessao alterarDocumento(@Named("sessao") String sessao, Usuario usuario, HttpServletRequest req) throws ParametroException, RegraNegocioException  {
+		Sessao session = GerenciaSessao.renova(usuario.getApelido(), sessao, req.getRemoteAddr());
+		if (usuario.getApelido() != null) {
+			session.setResposta(new GerenciaUsuario().alterarDocumento(usuario, req));
+			return session;
+		} else {
+			throw new ParametroException("102");
+		} 
+	}
+	
+	@ApiMethod(name = "usuario.endereco.alterar",path = "usuario/endereco/alterar",httpMethod = HttpMethod.PUT)
+	public Sessao alterarEndereco(@Named("sessao") String sessao, Usuario usuario, HttpServletRequest req) throws ParametroException, RegraNegocioException  {
+		Sessao session = GerenciaSessao.renova(usuario.getApelido(), sessao, req.getRemoteAddr());
+		if (usuario.getApelido() != null) {
+			session.setResposta(new GerenciaUsuario().alterarEndereco(usuario, req));
 			return session;
 		} else {
 			throw new ParametroException("102");
@@ -128,7 +157,7 @@ public class Web {
 	}
 	
 	@ApiMethod(name = "cota.usuario.listar",path = "cota/usuario/listar",httpMethod = HttpMethod.GET)
-	public Sessao listaCostasPorUsuario(@Named("usuario")String usuario, @Named("sessao") String sessao, HttpServletRequest req) throws ParametroException, RegraNegocioException {
+	public Sessao listaCotasPorUsuario(@Named("usuario")String usuario, @Named("sessao") String sessao, HttpServletRequest req) throws ParametroException, RegraNegocioException {
 		if (usuario != null) {
 			Sessao session = GerenciaSessao.renova(usuario, sessao, req.getRemoteAddr());
 			session.setResposta(new GerenciaCota().listaCotasUsuario(usuario));

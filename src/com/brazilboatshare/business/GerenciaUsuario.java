@@ -575,6 +575,8 @@ public class GerenciaUsuario {
 			novo.setApelido(antigo.getApelido());
 			novo.setEmailConfirmado(antigo.isEmailConfirmado());
 			novo.setLocale(antigo.getLocale());
+			novo.setDoc(antigo.getDoc());
+			novo.setEndereco(antigo.getEndereco());
 			if (!novo.igual(antigo)) {
 				if (!antigo.getFone().equals(novo.getFone())) {
 					atualizaFone(novo.getFone());
@@ -604,6 +606,30 @@ public class GerenciaUsuario {
 					new UsuarioDao().save(novo);
 				}
 				return concedeAcesso(novo);
+			}
+		}
+		return null;
+	}
+	
+	public Usuario alterarDocumento(final Usuario novo, HttpServletRequest req) throws RegraNegocioException {
+		final Usuario antigo = buscar(novo.getApelido());
+		if (antigo != null) {
+			antigo.setDoc(novo.getDoc());
+			new UsuarioDao().save(antigo);
+			return concedeAcesso(antigo);
+		}
+		return null;
+	}
+	
+	public Usuario alterarEndereco(final Usuario novo, HttpServletRequest req) throws RegraNegocioException {
+		final Usuario antigo = buscar(novo.getApelido());
+		if (antigo != null) {
+			antigo.setEndereco(novo.getEndereco());
+			if (antigo.getEndereco() != null && antigo.getEndereco().getLogradouro() != null) {
+				antigo.getEndereco().setPais(obtemPais(null).getCodigo());
+				antigo.getEndereco().setEstado(antigo.getEndereco().getEstado().toUpperCase());
+				new UsuarioDao().save(antigo);
+				return concedeAcesso(antigo);
 			}
 		}
 		return null;

@@ -55,6 +55,18 @@ public class GerenciaCota {
 		}		
 	}
 	
+	public Usuario buscarDependente(Long cota) {
+		Usuario dependente = null;
+		if (cota != null) {
+			dependente = buscarUsuario(usuario);
+			if (perfil != null) {
+				perfil.eliminaSensiveis();;
+			}
+		}
+		
+		return dependente;
+	}		
+	
 	public List<Cota> listaCotasUsuario(String usuario) {
 		return new CotaDao().lista(usuario);
 	}

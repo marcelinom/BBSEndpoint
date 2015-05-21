@@ -12,8 +12,8 @@ public class Dependente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id	private Long codigo;
-	@Index private Long cota;
-	@Index private String nome; 			// dependente do titular da cota
+	@Index private Long cota;				// cota ao qual o usuario eh dependente
+	@Index private String nome; 			// usuario dependente
 	private Date inclusao;
 	private Date exclusao;
 	
