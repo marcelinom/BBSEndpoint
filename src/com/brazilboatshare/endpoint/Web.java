@@ -56,7 +56,7 @@ public class Web {
 	public Sessao incluirDependente(@Named("usuario") String usuario, @Named("cota") Long cota, @Named("dep") String dependente, @Named("sessao") String sessao, HttpServletRequest req) throws ParametroException, RegraNegocioException {
 		Sessao session = GerenciaSessao.renova(usuario, sessao, req.getRemoteAddr());
 		Usuario candidato = new GerenciaUsuario().buscarUsuario(dependente);
-		session.setResposta(new GerenciaCota().incluirDependente(cota, candidato));
+		session.setResposta(new GerenciaCota().incluirDependente(usuario, cota, candidato));
 		return session;
 	}
 	

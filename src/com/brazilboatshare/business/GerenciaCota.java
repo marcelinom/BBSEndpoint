@@ -73,18 +73,18 @@ public class GerenciaCota {
 		return dependente;
 	}		
 	
-	public Usuario incluirDependente(Long cota, Usuario usuario) throws RegraNegocioException {
-		if (usuario != null) {
+	public Usuario incluirDependente(String usuario, Long cota, Usuario dependente) throws RegraNegocioException {
+		if (dependente != null) {
 			if (cota != null) {
 				Cota prop = new CotaDao().get(cota);
-				if (prop != null && prop.getDependente() == null) {
-					if (!prop.getUsuario().equals(usuario.getApelido())) {
-						prop.setDependente(usuario.getApelido());
-						new DependenteDao().salva(new Dependente(usuario.getApelido(), prop.getCodigo()), prop);
-						usuario.setStatus(Usuario.Status.OK);
-						new UsuarioDao().save(usuario);
-						usuario.eliminaSensiveis();
-						return usuario;
+				if (prop != null && usuario.equals(prop.getUsuario()) && prop.getDependente() == null) {
+					if (!prop.getUsuario().equals(dependente.getApelido())) {
+						prop.setDependente(dependente.getApelido());
+						new DependenteDao().salva(new Dependente(dependente.getApelido(), prop.getCodigo()), prop);
+						dependente.setStatus(Usuario.Status.OK);
+						new UsuarioDao().save(dependente);
+						dependente.eliminaSensiveis();
+						return dependente;
 					} else {
 						throw new RegraNegocioException("504");
 					}

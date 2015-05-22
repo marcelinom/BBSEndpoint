@@ -21,6 +21,7 @@ public class Barco implements Serializable {
 	private BigDecimal valor;		// valor de venda da cota
 	private BigDecimal taxa;		// valor do condominio
 	private int ano;				// ano de contrucao. Negativo se novo
+	private int fotos;				// numero de fotos
 	private Referencia marina;		// marina onde fica o barco
 	@Index private Local cidade;	// cidade da marina
 	private List<String> descricao;	// Linhas de descricao dos itens exclusivos
@@ -42,6 +43,12 @@ public class Barco implements Serializable {
 	}
 	public void setMarina(Referencia marina) {
 		this.marina = marina;
+	}
+	public int getFotos() {
+		return fotos;
+	}
+	public void setFotos(int fotos) {
+		this.fotos = fotos;
 	}
 	public List<String> getDescricao() {
 		return descricao;
