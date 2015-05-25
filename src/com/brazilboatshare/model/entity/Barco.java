@@ -15,7 +15,7 @@ public class Barco implements Serializable {
 	
 	@Id private String nome;
 	@Index private String modelo;	// chave para projeto do barco
-	private boolean ativa;
+	@Index private boolean ativa;
 	private int cotas;				// numero total de cotistas		
 	private Date cadastro;			// quando foi incluido no sistema
 	private BigDecimal valor;		// valor de venda da cota

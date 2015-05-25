@@ -191,5 +191,11 @@ public class Web {
 		}
 	}
 	
+	@SuppressWarnings("rawtypes")
+	@ApiMethod(name = "barcos.listar",path = "barcos/listar",httpMethod = HttpMethod.GET)
+	public List listarBarcos() {
+		return new GerenciaBarco().listarDisponiveis();
+	}
+	
 	
 }

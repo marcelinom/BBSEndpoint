@@ -1,5 +1,6 @@
 package com.brazilboatshare.business;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import com.brazilboatshare.model.dao.BarcoDao;
 import com.brazilboatshare.model.dao.ProjetoDao;
 import com.brazilboatshare.model.dto.ViewBarco;
 import com.brazilboatshare.model.entity.Barco;
+import com.brazilboatshare.model.entity.Par;
 import com.brazilboatshare.model.entity.Projeto;
 
 public class GerenciaBarco {
@@ -42,6 +44,19 @@ public class GerenciaBarco {
 		}		
 		
 		return null;
+	}
+	
+	public List<Par<String, String>> listarDisponiveis() {
+		List<Barco> barcos = new BarcoDao().lista();
+		if (barcos != null) {
+			List<Par<String, String>> lista = new ArrayList<Par<String, String>>();
+			for (Barco barco : barcos) {
+				lista.add(new Par<String, String>(barco.getNome(), barco.getModelo()));
+			}
+			return lista;
+		} else {
+			return null;
+		}
 	}
 	
 	public Barco buscar(String nome) {
