@@ -13,23 +13,8 @@ import com.googlecode.objectify.cmd.Query;
 public class ShardedCounterDao extends ObjectifyDao<ShardedCounter> {
 	private static final String SEPARADOR = "#";
     
-	public static final String SALDO_CONTA = "saldo";
-    
-    public static final String COTA_ACORDO = "acordo";
-    public static final String COTA_RASTREIO = "rastreio";
-    public static final String COTA_FRETE = "frete";
-    public static final String COTA_OFERTA = "oferta";
-    public static final String COTA_PROCURA = "procura";
-    public static final String COTA_PROPOSTA = "proposta";
-    public static final String COTA_DETALHE_QUALIFICACOES = "detqual";
-    public static final String COTA_INFORMATIVO = "informativo";
-
-    public static final String AVALIACOES = "avaliacoes";
-    public static final String AVALIACAO_INTEGRIDADE = "integridade";
-    public static final String AVALIACAO_COLETA = "coleta";
-    public static final String AVALIACAO_ENTREGA = "entrega";
-    public static final String AVALIACAO_PRECISAO = "precisao";
-    public static final String AVALIACAO_PAGAMENTO = "pagamento";
+	public static final String SALDO_CONTA = "saldo";    
+    public static final String SALDO_PONTO = "pontos";
 	
     private static final int NUM_SHARDS = 5;
     private final Random generator = new Random();
