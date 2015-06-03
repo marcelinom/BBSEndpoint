@@ -35,4 +35,12 @@ public class CotaDao extends ObjectifyDao<Cota> {
 		}
 	}
 	
+	public List<Cota> cotasAtivasDoBarco(String barco) {
+		List<FiltroPesquisa> filtro = new ArrayList<FiltroPesquisa>();
+		filtro.add(new FiltroPesquisa("barco", barco));
+		filtro.add(new FiltroPesquisa("status !=", Cota.Status.CANCELADA));
+		return list(filtro, null, null);
+	}
+	
+	
 }

@@ -24,6 +24,22 @@
     "maxAge" : 0
   },
   "methods" : {
+    "backoffice.tipocontabil.cadastrar" : {
+      "path" : "tipocontabil/cadastrar",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
     "backoffice.usuario.login" : {
       "path" : "usuario/login",
       "httpMethod" : "POST",
@@ -38,6 +54,22 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "backoffice.cadastrar.admin" : {
+      "path" : "cadastrar/admin",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.cadastrarAdmin",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
       }
     },
     "backoffice.pais.cadastrar" : {
@@ -104,22 +136,6 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "backoffice.cadastrar.admin" : {
-      "path" : "cadastrar/admin",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.cadastrarAdmin",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
     "backoffice.projeto.cadastrar" : {
       "path" : "projeto/cadastrar",
       "httpMethod" : "POST",
@@ -135,26 +151,34 @@
       "response" : {
         "body" : "empty"
       }
-    },
-    "backoffice.tipocontabil.cadastrar" : {
-      "path" : "tipocontabil/cadastrar",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "empty"
-      }
     }
   },
   "descriptor" : {
     "schemas" : {
+      "TipoContabil" : {
+        "id" : "TipoContabil",
+        "type" : "object",
+        "properties" : {
+          "codigo" : {
+            "type" : "string"
+          },
+          "descricao" : {
+            "type" : "string"
+          },
+          "conversao" : {
+            "$ref" : "BigDecimal"
+          }
+        }
+      },
+      "BigDecimal" : {
+        "id" : "BigDecimal",
+        "type" : "object",
+        "properties" : {
+          "scale" : {
+            "type" : "integer"
+          }
+        }
+      },
       "Usuario" : {
         "id" : "Usuario",
         "type" : "object",
@@ -314,6 +338,42 @@
         "id" : "_any",
         "type" : "any"
       },
+      "Administrador" : {
+        "id" : "Administrador",
+        "type" : "object",
+        "properties" : {
+          "apelido" : {
+            "type" : "string"
+          },
+          "nome" : {
+            "type" : "string"
+          },
+          "sobrenome" : {
+            "type" : "string"
+          },
+          "senha" : {
+            "type" : "string"
+          },
+          "pssMst" : {
+            "type" : "string"
+          },
+          "criptografada" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "salt" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "cadastro" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
       "Pais" : {
         "id" : "Pais",
         "type" : "object",
@@ -432,15 +492,6 @@
           }
         }
       },
-      "BigDecimal" : {
-        "id" : "BigDecimal",
-        "type" : "object",
-        "properties" : {
-          "scale" : {
-            "type" : "integer"
-          }
-        }
-      },
       "Referencia" : {
         "id" : "Referencia",
         "type" : "object",
@@ -509,42 +560,6 @@
           }
         }
       },
-      "Administrador" : {
-        "id" : "Administrador",
-        "type" : "object",
-        "properties" : {
-          "apelido" : {
-            "type" : "string"
-          },
-          "nome" : {
-            "type" : "string"
-          },
-          "sobrenome" : {
-            "type" : "string"
-          },
-          "senha" : {
-            "type" : "string"
-          },
-          "pssMst" : {
-            "type" : "string"
-          },
-          "criptografada" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "salt" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "email" : {
-            "type" : "string"
-          },
-          "cadastro" : {
-            "type" : "string",
-            "format" : "date-time"
-          }
-        }
-      },
       "Projeto" : {
         "id" : "Projeto",
         "type" : "object",
@@ -574,30 +589,25 @@
             "type" : "string"
           }
         }
-      },
-      "TipoContabil" : {
-        "id" : "TipoContabil",
-        "type" : "object",
-        "properties" : {
-          "codigo" : {
-            "type" : "string"
-          },
-          "descricao" : {
-            "type" : "string"
-          },
-          "conversao" : {
-            "$ref" : "BigDecimal"
-          }
-        }
       }
     },
     "methods" : {
+      "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil" : {
+        "request" : {
+          "$ref" : "TipoContabil"
+        }
+      },
       "com.brazilboatshare.endpoint.BackOffice.login" : {
         "request" : {
           "$ref" : "Usuario"
         },
         "response" : {
           "$ref" : "Sessao"
+        }
+      },
+      "com.brazilboatshare.endpoint.BackOffice.cadastrarAdmin" : {
+        "request" : {
+          "$ref" : "Administrador"
         }
       },
       "com.brazilboatshare.endpoint.BackOffice.salvarPais" : {
@@ -623,19 +633,9 @@
           "$ref" : "Noticia"
         }
       },
-      "com.brazilboatshare.endpoint.BackOffice.cadastrarAdmin" : {
-        "request" : {
-          "$ref" : "Administrador"
-        }
-      },
       "com.brazilboatshare.endpoint.BackOffice.salvarProjeto" : {
         "request" : {
           "$ref" : "Projeto"
-        }
-      },
-      "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil" : {
-        "request" : {
-          "$ref" : "TipoContabil"
         }
       }
     }

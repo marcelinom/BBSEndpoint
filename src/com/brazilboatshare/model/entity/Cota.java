@@ -16,7 +16,7 @@ public class Cota implements Serializable {
 	@Id private Long codigo;
 	@Index private String usuario;				// proprietario da cota
 	@Index private String barco;
-	private Status status;
+	@Index private Status status;
 	private int pontos;					
 	private Date compra;
 	@Index private String dependente;			// dependente do proprietario

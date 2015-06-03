@@ -22,24 +22,28 @@ public class GerenciaCota {
 	private static int PONTOS_ANUAL = 600;
 	private static final String PATH_ATIVA_COTA = "http://brazilboatshare.com/entrar.html?login#/";
 
-	public void criar(Cota cota) {
+	public void criar(Cota cota) throws RegraNegocioException {
 		if (cota != null && cota.getUsuario() != null & cota.getBarco() != null) {
 			UsuarioDao uDao = new UsuarioDao();
 			Usuario usuario = uDao.get(cota.getUsuario());
 			if (usuario != null) {
 				Barco barco = new BarcoDao().get(cota.getBarco());
 				if (barco != null && barco.isAtiva()) {
-					cota.setCompra(new Date());
-					cota.setStatus(Cota.Status.OK);
-					cota.setPontos(calculaPontos());
-					new CotaDao().saveNow(cota);
-					
-					if (Usuario.Status.INATIVO.equals(usuario.getStatus())) {
-						usuario.setStatus(Usuario.Status.OK);
-						uDao.save(usuario);
+					CotaDao cDao = new CotaDao();
+					List<Cota> cotas = cDao.cotasAtivasDoBarco(barco.getNome());
+					if (cotas == null || cotas.size() < barco.getCotas()) {
+						cota.setCompra(new Date());
+						cota.setStatus(Cota.Status.OK);
+						cota.setPontos(calculaPontos());
+						cDao.saveNow(cota);
+						if (Usuario.Status.INATIVO.equals(usuario.getStatus())) {
+							usuario.setStatus(Usuario.Status.OK);
+							uDao.save(usuario);
+						}
+						AcessaEmail.sistemaEnvia(usuario, Tradutor.traduza(usuario.getLocale(),"cota.assunto.ativacao"), Tradutor.traduza(usuario.getLocale(),"cota.mensagem.ativacao", PATH_ATIVA_COTA));					
+					} else {
+						throw new RegraNegocioException("504");
 					}
-					
-					AcessaEmail.sistemaEnvia(usuario, Tradutor.traduza(usuario.getLocale(),"cota.assunto.ativacao"), Tradutor.traduza(usuario.getLocale(),"cota.mensagem.ativacao", PATH_ATIVA_COTA));					
 				}
 			}
 		}		
