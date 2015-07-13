@@ -9,6 +9,7 @@ import com.brazilboatshare.business.GerenciaBarco;
 import com.brazilboatshare.business.GerenciaCota;
 import com.brazilboatshare.business.GerenciaFinanceira;
 import com.brazilboatshare.business.GerenciaNoticia;
+import com.brazilboatshare.business.GerenciaReserva;
 import com.brazilboatshare.business.GerenciaSessao;
 import com.brazilboatshare.business.GerenciaUsuario;
 import com.brazilboatshare.exception.ParametroException;
@@ -16,6 +17,7 @@ import com.brazilboatshare.exception.RegraNegocioException;
 import com.brazilboatshare.model.dao.ObjectifyRegistering;
 import com.brazilboatshare.model.dto.ViewBarco;
 import com.brazilboatshare.model.entity.Noticia;
+import com.brazilboatshare.model.entity.Reserva;
 import com.brazilboatshare.model.entity.Sessao;
 import com.brazilboatshare.model.entity.Usuario;
 import com.google.api.server.spi.config.Api;
@@ -42,6 +44,13 @@ public class Web {
 	public Sessao buscarPerfil(@Named("usuario") String usuario, @Named("perfil") String perfil, @Named("sessao") String sessao, HttpServletRequest req) throws ParametroException, RegraNegocioException {
 		Sessao session = GerenciaSessao.renova(usuario, sessao, req.getRemoteAddr());
 		session.setResposta(new GerenciaUsuario().buscarPerfil(perfil));
+		return session;
+	}
+	
+	@ApiMethod(name = "solicitar.reserva",path = "solicitar/reserva",httpMethod = HttpMethod.PUT)
+	public Sessao solicitarReserva(@Named("usuario") String usuario, @Named("sessao") String sessao, Reserva solic, HttpServletRequest req) throws ParametroException, RegraNegocioException {
+		Sessao session = GerenciaSessao.renova(usuario, sessao, req.getRemoteAddr());
+		session.setResposta(new GerenciaReserva().incluirReserva(usuario, solic));
 		return session;
 	}
 	

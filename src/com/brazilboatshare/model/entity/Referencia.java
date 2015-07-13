@@ -11,6 +11,7 @@ public class Referencia implements Serializable {
 
 	private String descricao;
 	private Link site;
+	private double raio;				// raio maximo de distancia (em Km) p/roteiro sem pre-aprovacao
 	
 	public String getDescricao() {
 		return descricao;
@@ -23,6 +24,12 @@ public class Referencia implements Serializable {
 	}
 	public void setSite(Link site) {
 		this.site = site;
+	}
+	public double getRaio() {
+		return raio;
+	}
+	public void setRaio(double raio) {
+		this.raio = raio;
 	}
 	@Override
 	public int hashCode() {

@@ -4,26 +4,34 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.Load;
 
 @Entity
 public class Reserva implements Serializable {
 	private static final long serialVersionUID = 1L;
-	public enum Status {AGUARDANDO, CONFIRMADA, IMPUGNADA, VALIDADA, CANCELADA, REALIZADA};
+	public enum Status {AGUARDANDO, 					// recem-criada, aguardando validacao/confirmacao
+						VALIDADA, 						// roteiro foi validado
+						CONFIRMADA, 					// usuario pode usar o barco
+						CONDOMINIO,						// realizada pelo condominio e ja confirmada formalmente
+						IMPUGNADA, 						// roteiro nao foi aceito
+						CANCELADA, 						// condomino ou o condominio cancelou a reserva
+						ATIVA,							// condomino fez check-on
+						REALIZADA						// condomino fez check-off
+						};
 	
 	@Id private Long codigo;
 	@Index private String barco;			// nome do barco da reserva
-	@Index @Load private Ref<Cota> cota;	// cota relacionada a esta reserva
+	@Index private Long cota;				// cota relacionada a esta reserva
 	private int pontos;						// pontos oferecidos para reserva
 	private int penalidade;					// pontos de penalizacao (em caso de cancelamento, noshow, etc)
 	private int ordem;						// prioridade da reserva
 	@Index private Status status;
-	@Index private Date saida;				// data para check-on
-	@Index private Date retorno;			// data para devolver o barco
+	@Index private Date saida;				// data prevista para check-on
+	@Index private Date retorno;			// data prevista para devolver o barco (check-off)
+	private Date rsaida;					// data real do check-on
+	private Date rretorno;					// data real da devolucao do barco (check-off)
 	private Date solicitacao;				// data da solicitacao da reserva
 	private List<Local> roteiro;			// waypoints do roteiro 
 	
@@ -33,11 +41,11 @@ public class Reserva implements Serializable {
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
 	}
-	public Cota getCota() {
-		return cota==null?null:cota.get();
+	public Long getCota() {
+		return cota;
 	}
-	public void setCota(Cota cota) {
-		this.cota = cota==null?null:Ref.create(cota);
+	public void setCota(Long cota) {
+		this.cota = cota;
 	}	
 	public String getBarco() {
 		return barco;
@@ -80,6 +88,18 @@ public class Reserva implements Serializable {
 	}
 	public void setRetorno(Date retorno) {
 		this.retorno = retorno;
+	}
+	public Date getRsaida() {
+		return rsaida;
+	}
+	public void setRsaida(Date rsaida) {
+		this.rsaida = rsaida;
+	}
+	public Date getRretorno() {
+		return rretorno;
+	}
+	public void setRretorno(Date rretorno) {
+		this.rretorno = rretorno;
 	}
 	public Date getSolicitacao() {
 		return solicitacao;
