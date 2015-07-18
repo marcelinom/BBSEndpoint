@@ -23,7 +23,8 @@ public class Reserva implements Serializable {
 	
 	@Id private Long codigo;
 	@Index private String barco;			// nome do barco da reserva
-	@Index private Long cota;				// cota relacionada a esta reserva
+	private Long cota;						// cota relacionada a esta reserva
+	@Index private String cotista;			// condomino proprietario da cota
 	private int pontos;						// pontos oferecidos para reserva
 	private int penalidade;					// pontos de penalizacao (em caso de cancelamento, noshow, etc)
 	private int ordem;						// prioridade da reserva
@@ -47,6 +48,12 @@ public class Reserva implements Serializable {
 	public void setCota(Long cota) {
 		this.cota = cota;
 	}	
+	public String getCotista() {
+		return cotista;
+	}
+	public void setCotista(String cotista) {
+		this.cotista = cotista;
+	}
 	public String getBarco() {
 		return barco;
 	}

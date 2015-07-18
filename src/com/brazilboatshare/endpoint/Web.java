@@ -206,5 +206,27 @@ public class Web {
 		return new GerenciaBarco().listarDisponiveis();
 	}
 	
+	@ApiMethod(name = "cota.buscar",path = "cota/buscar",httpMethod = HttpMethod.GET)
+	public Sessao buscarCota(@Named("usuario")String usuario, @Named("sessao") String sessao, @Named("cota") Long cota, HttpServletRequest req) throws ParametroException, RegraNegocioException {
+		if (cota != null) {
+			Sessao session = GerenciaSessao.renova(usuario, sessao, req.getRemoteAddr());
+			session.setResposta(new GerenciaCota().buscarViewCota(cota));
+			return session;
+		} else {
+			throw new ParametroException("102");
+		}
+	}
+	
+	@ApiMethod(name = "reservas.barco.listar",path = "reservas/barco/listar",httpMethod = HttpMethod.GET)
+	public Sessao listarReservasBarco(@Named("usuario")String usuario, @Named("sessao") String sessao, @Named("cota") Long cota, HttpServletRequest req) throws ParametroException, RegraNegocioException {
+		if (cota != null) {
+			Sessao session = GerenciaSessao.renova(usuario, sessao, req.getRemoteAddr());
+			session.setResposta(new GerenciaReserva().listarReservasBarco(usuario, cota));
+			return session;
+		} else {
+			throw new ParametroException("102");
+		}
+	}
+	
 	
 }

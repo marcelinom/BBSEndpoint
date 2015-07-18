@@ -22,9 +22,11 @@ public class GerenciaReserva {
 			if (reservaValida(reserva, cota) && (usuario.equals(cota.getUsuario()) || usuario.equals(cota.getDependente()))) {
 				new ReservaDao().save(reserva);
 				return reserva;
+			} else {
+				throw new RegraNegocioException("506");				
 			}
 		}
-		return null;
+		throw new RegraNegocioException("505");
 	}		
 	
 	public boolean reservaValida(Reserva reserva, Cota cota) throws RegraNegocioException {
@@ -41,6 +43,7 @@ public class GerenciaReserva {
 							} else {
 								reserva.setStatus(Reserva.Status.AGUARDANDO);
 								reserva.setSolicitacao(agora);
+								reserva.setCotista(cota.getUsuario());
 								reserva.setBarco(cota.getBarco());
 								reserva.setOrdem(0);
 								return true;
@@ -75,4 +78,8 @@ public class GerenciaReserva {
 		return new CotaDao().lista(usuario);
 	}
 		
+	public List<Reserva> listarReservasBarco(String usuario, Long cota) {
+		return new ReservaDao().listaReservas(usuario, cota);
+	}
+
 }

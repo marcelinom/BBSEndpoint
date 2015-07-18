@@ -10,7 +10,10 @@ import com.brazilboatshare.exception.RegraNegocioException;
 import com.brazilboatshare.model.dao.BarcoDao;
 import com.brazilboatshare.model.dao.CotaDao;
 import com.brazilboatshare.model.dao.DependenteDao;
+import com.brazilboatshare.model.dao.ProjetoDao;
 import com.brazilboatshare.model.dao.UsuarioDao;
+import com.brazilboatshare.model.dto.ViewBarco;
+import com.brazilboatshare.model.dto.ViewCota;
 import com.brazilboatshare.model.entity.Barco;
 import com.brazilboatshare.model.entity.Cota;
 import com.brazilboatshare.model.entity.Dependente;
@@ -119,5 +122,19 @@ public class GerenciaCota {
 	public List<Cota> listaCotasUsuario(String usuario) {
 		return new CotaDao().lista(usuario);
 	}
+	
+	public ViewCota buscarViewCota(Long cota) {
+		if (cota != null) {
+			Cota cCota = new CotaDao().get(cota);
+			if (cCota != null) {
+				Barco barco = new BarcoDao().get(cCota.getBarco());
+				if (barco != null) {
+					return new ViewCota(cCota, new ViewBarco(barco, new ProjetoDao().get(barco.getModelo())));
+				}
+			}
+		}		
+		
+		return null;
+	}	
 		
 }
