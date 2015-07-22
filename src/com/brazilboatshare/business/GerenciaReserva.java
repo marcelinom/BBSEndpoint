@@ -104,8 +104,8 @@ public class GerenciaReserva {
 	public Reserva buscarReserva(String usuario, Long reserva) {
 		if (reserva != null) {
 			Reserva res = new ReservaDao().get(reserva);
-			if (res != null && (usuario.equals(res.getCotista()) || usuario.equals(res.getSolicitante()))) {
-				return new ReservaDao().get(reserva);
+			if (res != null && new CotaDao().temCotaDoBarco(usuario, res.getBarco())) {
+				return new ReservaDao().get(reserva);					
 			}
 		}
 		return null;

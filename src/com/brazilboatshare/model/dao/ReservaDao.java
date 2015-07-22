@@ -40,7 +40,7 @@ public class ReservaDao extends ObjectifyDao<Reserva> {
 	public List<Reserva> listaReservas(String usuario, Cota cota) {
 		if (usuario != null && cota != null) {
 			List<FiltroPesquisa> filtro = new ArrayList<FiltroPesquisa>();
-			filtro.add(new FiltroPesquisa("cotista", cota.getUsuario()));
+			//filtro.add(new FiltroPesquisa("cotista", cota.getUsuario()));
 			filtro.add(new FiltroPesquisa("barco", cota.getBarco()));
 			return list(filtro, null, null);
 		}

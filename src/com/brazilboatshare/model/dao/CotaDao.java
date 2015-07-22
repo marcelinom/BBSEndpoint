@@ -17,10 +17,16 @@ public class CotaDao extends ObjectifyDao<Cota> {
 			List<FiltroPesquisa> filtro = new ArrayList<FiltroPesquisa>();
 			filtro.add(new FiltroPesquisa("usuario", usuario));
 			List<Cota> cotas = list(filtro, null, null);
+			
 			// acrescentar as cotas que tem acesso como dependente
 			filtro.clear();
 			filtro.add(new FiltroPesquisa("dependente", usuario));
-			cotas.addAll(list(filtro, null, null));
+			if (cotas == null) {
+				cotas = list(filtro, null, null);
+			} else {
+				cotas.addAll(list(filtro, null, null));
+			}
+			
 			if (cotas != null) {
 				boolean primeiro = true;
 				for (Cota cota : cotas) {
@@ -40,6 +46,23 @@ public class CotaDao extends ObjectifyDao<Cota> {
 		filtro.add(new FiltroPesquisa("barco", barco));
 		filtro.add(new FiltroPesquisa("status !=", Cota.Status.CANCELADA));
 		return list(filtro, null, null);
+	}
+	
+	public boolean temCotaDoBarco(String usuario, String barco) {
+		List<FiltroPesquisa> filtro = new ArrayList<FiltroPesquisa>();
+		filtro.add(new FiltroPesquisa("barco", barco));
+		filtro.add(new FiltroPesquisa("usuario", usuario));
+		List<Cota> cotas = list(filtro, null, null);
+		if (cotas == null || cotas.size() == 0) {
+			// cotas que tem acesso como dependente
+			filtro.clear();
+			filtro.add(new FiltroPesquisa("barco", barco));
+			filtro.add(new FiltroPesquisa("dependente", usuario));
+			cotas = list(filtro, null, null);
+			return cotas != null && cotas.size() > 0;
+		} else {
+			return true;
+		}
 	}
 	
 	
