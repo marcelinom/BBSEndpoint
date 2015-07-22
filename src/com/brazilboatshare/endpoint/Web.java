@@ -228,5 +228,16 @@ public class Web {
 		}
 	}
 	
+	@ApiMethod(name = "reserva.buscar",path = "reserva/buscar",httpMethod = HttpMethod.GET)
+	public Sessao buscarReserva(@Named("usuario")String usuario, @Named("sessao") String sessao, @Named("reserva") Long reserva, HttpServletRequest req) throws ParametroException, RegraNegocioException {
+		if (reserva != null) {
+			Sessao session = GerenciaSessao.renova(usuario, sessao, req.getRemoteAddr());
+			session.setResposta(new GerenciaReserva().buscarReserva(usuario, reserva));
+			return session;
+		} else {
+			throw new ParametroException("102");
+		}
+	}
+	
 	
 }

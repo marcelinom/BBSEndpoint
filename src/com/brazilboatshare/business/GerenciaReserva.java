@@ -14,13 +14,15 @@ import com.brazilboatshare.model.entity.Local;
 import com.brazilboatshare.model.entity.Reserva;
 
 public class GerenciaReserva {
-	private static int PRAZO_RESERVA_ROTEIRO_LONGO = 15;   // ao menos 15 dias de antecedencia p/navegar a grande distancia da sede
+	private static int PONTOS_RESERVA_DEFAULT = 10;   
+	private static int DISTANCIA_MAXIMA_ROTEIRO_CURTO = 12;  	// milhas nauticas   
+	private static int PRAZO_RESERVA_ROTEIRO_LONGO = 15;   		// ao menos 15 dias de antecedencia p/navegar a grande distancia da sede
 
 	public Reserva incluirReserva(String usuario, Reserva reserva) throws RegraNegocioException {
 		if (reserva != null && reserva.getCota() != null) {
 			Cota cota = new CotaDao().get(reserva.getCota());
-			if (reservaValida(reserva, cota) && (usuario.equals(cota.getUsuario()) || usuario.equals(cota.getDependente()))) {
-				new ReservaDao().save(reserva);
+			if (reservaValida(usuario, reserva, cota) && (usuario.equals(cota.getUsuario()) || usuario.equals(cota.getDependente()))) {
+				new ReservaDao().salva(reserva, cota);
 				return reserva;
 			} else {
 				throw new RegraNegocioException("506");				
@@ -29,7 +31,7 @@ public class GerenciaReserva {
 		throw new RegraNegocioException("505");
 	}		
 	
-	public boolean reservaValida(Reserva reserva, Cota cota) throws RegraNegocioException {
+	public boolean reservaValida(String usuario, Reserva reserva, Cota cota) throws RegraNegocioException {
 		if (reserva != null && reserva.getCota() != null) {
 			if (Cota.Status.OK.equals(cota.getStatus())) {
 				if (reserva.getRoteiro() != null && reserva.getSaida() != null && reserva.getRetorno() != null) {
@@ -43,8 +45,10 @@ public class GerenciaReserva {
 							} else {
 								reserva.setStatus(Reserva.Status.AGUARDANDO);
 								reserva.setSolicitacao(agora);
+								reserva.setSolicitante(usuario);
 								reserva.setCotista(cota.getUsuario());
 								reserva.setBarco(cota.getBarco());
+								reserva.setPontos(PONTOS_RESERVA_DEFAULT);
 								reserva.setOrdem(0);
 								return true;
 							}
@@ -63,11 +67,20 @@ public class GerenciaReserva {
 	}
 	
 	public boolean roteiroLongo(List<Local> roteiro, String barco) {
-		if (barco != null && roteiro != null && roteiro.size() > 0) {
-			Barco embarcacao = new BarcoDao().get(barco);
+		if (barco != null && roteiro != null && roteiro.size() > 1) {
+			double dist = 0;
+			Local anterior = null;
 			for (Local local : roteiro) {
-				if (Local.distancia(local, embarcacao.getCidade()) > embarcacao.getMarina().getRaio()) {
-					return true;
+			     dist += anterior!=null?Local.distancia(anterior, local):0;
+			     anterior = local;
+			}
+
+			if (dist > DISTANCIA_MAXIMA_ROTEIRO_CURTO) {
+				Barco embarcacao = new BarcoDao().get(barco);
+				for (Local local : roteiro) {
+					if (Local.distancia(local, embarcacao.getCidade()) > embarcacao.getMarina().getRaio()) {
+						return true;
+					}
 				}
 			}
 		}
@@ -79,7 +92,23 @@ public class GerenciaReserva {
 	}
 		
 	public List<Reserva> listarReservasBarco(String usuario, Long cota) {
-		return new ReservaDao().listaReservas(usuario, cota);
+		if (cota != null) {
+			Cota cCota = new CotaDao().get(cota);
+			if (cCota != null && (usuario.equals(cCota.getUsuario()) || usuario.equals(cCota.getDependente()))) {
+				return new ReservaDao().listaReservas(usuario, cCota);
+			}
+		}
+		return null;
+	}
+
+	public Reserva buscarReserva(String usuario, Long reserva) {
+		if (reserva != null) {
+			Reserva res = new ReservaDao().get(reserva);
+			if (res != null && (usuario.equals(res.getCotista()) || usuario.equals(res.getSolicitante()))) {
+				return new ReservaDao().get(reserva);
+			}
+		}
+		return null;
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.brazilboatshare.model.dao;
 
+import static com.googlecode.objectify.ObjectifyService.ofy;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.List;
 import com.brazilboatshare.model.entity.Cota;
 import com.brazilboatshare.model.entity.Reserva;
 import com.brazilboatshare.util.FiltroPesquisa;
+import com.googlecode.objectify.VoidWork;
 
 public class ReservaDao extends ObjectifyDao<Reserva> {
 
@@ -34,17 +37,25 @@ public class ReservaDao extends ObjectifyDao<Reserva> {
 		return false;
 	}
 	
-	public List<Reserva> listaReservas(String usuario, Long cota) {
+	public List<Reserva> listaReservas(String usuario, Cota cota) {
 		if (usuario != null && cota != null) {
-			Cota cCota = new CotaDao().get(cota);
-			if (cCota != null && usuario.equals(cCota.getUsuario())) {
-				List<FiltroPesquisa> filtro = new ArrayList<FiltroPesquisa>();
-				filtro.add(new FiltroPesquisa("usuario", usuario));
-				filtro.add(new FiltroPesquisa("barco", cCota.getBarco()));
-				return list(filtro, null, null);
-			}
+			List<FiltroPesquisa> filtro = new ArrayList<FiltroPesquisa>();
+			filtro.add(new FiltroPesquisa("cotista", cota.getUsuario()));
+			filtro.add(new FiltroPesquisa("barco", cota.getBarco()));
+			return list(filtro, null, null);
 		}
 		return null;
 	}
+	
+    public void salva(final Reserva reserva, final Cota cota) {
+        ofy().transact(new VoidWork() {	//mesma transacao!
+            public void vrun() {
+                saveNow(reserva);
+				cota.setPontos(cota.getPontos()-reserva.getPontos());
+                new CotaDao().save(cota);
+            }
+        });
+    }
+    	
 	
 }
