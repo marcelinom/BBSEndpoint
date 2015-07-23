@@ -239,5 +239,27 @@ public class Web {
 		}
 	}
 	
+	@ApiMethod(name = "reserva.cancelar",path = "reserva/cancelar",httpMethod = HttpMethod.PUT)
+	public Sessao cancelarReserva(@Named("usuario")String usuario, @Named("sessao") String sessao, @Named("reserva") Long reserva, HttpServletRequest req) throws ParametroException, RegraNegocioException {
+		if (reserva != null) {
+			Sessao session = GerenciaSessao.renova(usuario, sessao, req.getRemoteAddr());
+			session.setResposta(new GerenciaReserva().cancelarReserva(usuario, reserva));
+			return session;
+		} else {
+			throw new ParametroException("102");
+		}
+	}
+	
+	@ApiMethod(name = "reserva.pontos.oferecer",path = "reserva/pontos/oferecer",httpMethod = HttpMethod.PUT)
+	public Sessao oferecerPontosLeilao(@Named("usuario")String usuario, @Named("sessao") String sessao, @Named("reserva") Long reserva, @Named("pontos") Integer pontos, HttpServletRequest req) throws ParametroException, RegraNegocioException {
+		if (reserva != null) {
+			Sessao session = GerenciaSessao.renova(usuario, sessao, req.getRemoteAddr());
+			session.setResposta(new GerenciaReserva().oferecerPontosLeilao(usuario, reserva, pontos));
+			return session;
+		} else {
+			throw new ParametroException("102");
+		}
+	}
+	
 	
 }

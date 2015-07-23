@@ -22,7 +22,7 @@ public class GerenciaReserva {
 		if (reserva != null && reserva.getCota() != null) {
 			Cota cota = new CotaDao().get(reserva.getCota());
 			if (reservaValida(usuario, reserva, cota) && (usuario.equals(cota.getUsuario()) || usuario.equals(cota.getDependente()))) {
-				new ReservaDao().salva(reserva, cota);
+				new ReservaDao().salvaInclusao(reserva, cota);
 				return reserva;
 			} else {
 				throw new RegraNegocioException("506");				
@@ -111,4 +111,34 @@ public class GerenciaReserva {
 		return null;
 	}
 
+	public Boolean cancelarReserva(String usuario, Long reserva) {
+		if (reserva != null) {
+			Reserva res = new ReservaDao().get(reserva);
+			if (res != null) {
+				Cota cota = new CotaDao().get(res.getCota());
+				if (cota != null && (cota.getDependente().equals(usuario) || cota.getUsuario().equals(usuario))) {
+					res.setStatus(Reserva.Status.CANCELADA);
+					new ReservaDao().salvaCancelamento(res, cota);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public Boolean oferecerPontosLeilao(String usuario, Long reserva, Integer pontos) {
+		if (reserva != null) {
+			Reserva res = new ReservaDao().get(reserva);
+			if (res != null) {
+				Cota cota = new CotaDao().get(res.getCota());
+				if (cota != null && (cota.getDependente().equals(usuario) || cota.getUsuario().equals(usuario))) {
+					new ReservaDao().salvaOfertaLeilao(res, cota, pontos);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	
 }

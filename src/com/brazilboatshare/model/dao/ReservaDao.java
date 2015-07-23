@@ -47,11 +47,33 @@ public class ReservaDao extends ObjectifyDao<Reserva> {
 		return null;
 	}
 	
-    public void salva(final Reserva reserva, final Cota cota) {
+    public void salvaInclusao(final Reserva reserva, final Cota cota) {
         ofy().transact(new VoidWork() {	//mesma transacao!
             public void vrun() {
-                saveNow(reserva);
+                save(reserva);
 				cota.setPontos(cota.getPontos()-reserva.getPontos());
+                new CotaDao().save(cota);
+            }
+        });
+    }
+    	
+    public void salvaCancelamento(final Reserva reserva, final Cota cota) {
+        ofy().transact(new VoidWork() {	//mesma transacao!
+            public void vrun() {
+				cota.setPontos(cota.getPontos()+reserva.getPontos());
+				reserva.setPontos(0);
+                save(reserva);
+                new CotaDao().save(cota);
+            }
+        });
+    }
+    	
+    public void salvaOfertaLeilao(final Reserva reserva, final Cota cota, final Integer pontos) {
+        ofy().transact(new VoidWork() {	//mesma transacao!
+            public void vrun() {
+				cota.setPontos(cota.getPontos()+reserva.getPontos()-pontos);
+				reserva.setPontos(pontos);
+                save(reserva);
                 new CotaDao().save(cota);
             }
         });
