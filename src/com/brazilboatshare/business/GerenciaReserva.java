@@ -17,6 +17,7 @@ public class GerenciaReserva {
 	private static int PONTOS_RESERVA_DEFAULT = 10;   
 	private static int DISTANCIA_MAXIMA_ROTEIRO_CURTO = 12;  	// milhas nauticas   
 	private static int PRAZO_RESERVA_ROTEIRO_LONGO = 15;   		// ao menos 15 dias de antecedencia p/navegar a grande distancia da sede
+	private static int PRAZO_RESERVA_ROTEIRO_CURTO = 7;   		// reservas imediatas
 
 	public Reserva incluirReserva(String usuario, Reserva reserva) throws RegraNegocioException {
 		if (reserva != null && reserva.getCota() != null) {
@@ -39,11 +40,16 @@ public class GerenciaReserva {
 					if (reserva.getSaida().before(reserva.getRetorno()) && reserva.getSaida().after(agora)) {
 						ReservaDao rDao = new ReservaDao();
 						if (!rDao.temReservaAtiva(reserva.getSaida())) {
-							if (TimeUnit.DAYS.convert((reserva.getSaida().getTime()-agora.getTime()), TimeUnit.MILLISECONDS) < PRAZO_RESERVA_ROTEIRO_LONGO
-									&& roteiroLongo(reserva.getRoteiro(), reserva.getBarco())) {
+							boolean longo = roteiroLongo(reserva.getRoteiro(), reserva.getBarco());
+							long prazo =  TimeUnit.DAYS.convert((reserva.getSaida().getTime()-agora.getTime()), TimeUnit.MILLISECONDS);
+							if (longo && prazo < PRAZO_RESERVA_ROTEIRO_LONGO) {
 								throw new RegraNegocioException("509");							
 							} else {
-								reserva.setStatus(Reserva.Status.AGUARDANDO);
+								if (!longo && (prazo < PRAZO_RESERVA_ROTEIRO_CURTO) && !temReservasPeriodo(reserva, cota)) {
+									reserva.setStatus(Reserva.Status.CONFIRMADA);
+								} else {
+									reserva.setStatus(longo?Reserva.Status.AGUARDANDO_VALIDACAO:Reserva.Status.AGUARDANDO_CONFIRMACAO);									
+								}
 								reserva.setSolicitacao(agora);
 								reserva.setSolicitante(usuario);
 								reserva.setCotista(cota.getUsuario());
@@ -64,6 +70,10 @@ public class GerenciaReserva {
 			} 
 		}
 		throw new RegraNegocioException("506");
+	}
+	
+	public boolean temReservasPeriodo(Reserva reserva, Cota cota) {
+		return false;
 	}
 	
 	public boolean roteiroLongo(List<Local> roteiro, String barco) {
@@ -116,7 +126,7 @@ public class GerenciaReserva {
 			Reserva res = new ReservaDao().get(reserva);
 			if (res != null) {
 				Cota cota = new CotaDao().get(res.getCota());
-				if (cota != null && (cota.getDependente().equals(usuario) || cota.getUsuario().equals(usuario))) {
+				if (cota != null && (usuario.equals(cota.getUsuario()) || usuario.equals(cota.getDependente()))) {
 					res.setStatus(Reserva.Status.CANCELADA);
 					new ReservaDao().salvaCancelamento(res, cota);
 					return true;
@@ -131,7 +141,7 @@ public class GerenciaReserva {
 			Reserva res = new ReservaDao().get(reserva);
 			if (res != null) {
 				Cota cota = new CotaDao().get(res.getCota());
-				if (cota != null && (cota.getDependente().equals(usuario) || cota.getUsuario().equals(usuario))) {
+				if (cota != null && (usuario.equals(cota.getUsuario()) || usuario.equals(cota.getDependente()))) {				
 					new ReservaDao().salvaOfertaLeilao(res, cota, pontos);
 					return true;
 				}

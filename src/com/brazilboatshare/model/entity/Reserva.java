@@ -11,8 +11,8 @@ import com.googlecode.objectify.annotation.Index;
 @Entity
 public class Reserva implements Serializable {
 	private static final long serialVersionUID = 1L;
-	public enum Status {AGUARDANDO, 					// recem-criada, aguardando validacao/confirmacao
-						VALIDADA, 						// roteiro foi validado
+	public enum Status {AGUARDANDO_CONFIRMACAO, 		// aguardando confirmacao
+						AGUARDANDO_VALIDACAO, 			// aguardando validacao do roteiro
 						CONFIRMADA, 					// usuario pode usar o barco
 						CONDOMINIO,						// realizada pelo condominio e ja confirmada formalmente
 						IMPUGNADA, 						// roteiro nao foi aceito
