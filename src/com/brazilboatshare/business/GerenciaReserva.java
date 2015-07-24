@@ -79,21 +79,22 @@ public class GerenciaReserva {
 	public boolean roteiroLongo(List<Local> roteiro, String barco) {
 		if (barco != null && roteiro != null && roteiro.size() > 1) {
 			double dist = 0;
+			boolean foraRaio = false;
 			Local anterior = null;
+			Barco embarcacao = new BarcoDao().get(barco);
 			for (Local local : roteiro) {
-			     dist += anterior!=null?Local.distancia(anterior, local):0;
-			     anterior = local;
+				if (Local.distancia(local, embarcacao.getCidade()) > embarcacao.getMarina().getRaio()) {
+					foraRaio = true;
+				}
+			    dist += anterior!=null?Local.distancia(anterior, local):0;
+			    anterior = local;
 			}
 
-			if (dist > DISTANCIA_MAXIMA_ROTEIRO_CURTO) {
-				Barco embarcacao = new BarcoDao().get(barco);
-				for (Local local : roteiro) {
-					if (Local.distancia(local, embarcacao.getCidade()) > embarcacao.getMarina().getRaio()) {
-						return true;
-					}
-				}
+			if (dist > DISTANCIA_MAXIMA_ROTEIRO_CURTO && foraRaio) {
+				return true;
 			}
 		}
+		
 		return false;
 	}
 	
@@ -101,6 +102,10 @@ public class GerenciaReserva {
 		return new CotaDao().lista(usuario);
 	}
 		
+	public List<Reserva> listarReservasBarcoPeriodo(String barco, Date saida, Date retorno) {
+		return new ReservaDao().listaReservasPeriodo(barco,saida,retorno);
+	}
+
 	public List<Reserva> listarReservasBarco(String usuario, Long cota) {
 		if (cota != null) {
 			Cota cCota = new CotaDao().get(cota);

@@ -47,6 +47,17 @@ public class ReservaDao extends ObjectifyDao<Reserva> {
 		return null;
 	}
 	
+	public List<Reserva> listaReservasPeriodo(String barco, Date saida, Date retorno) {
+		if (barco != null && saida != null && retorno != null) {
+			List<FiltroPesquisa> filtro = new ArrayList<FiltroPesquisa>();
+			filtro.add(new FiltroPesquisa("barco", barco));
+			filtro.add(new FiltroPesquisa("saida", barco));
+			filtro.add(new FiltroPesquisa("retorno", barco));
+			return list(filtro, null, null);
+		}
+		return null;
+	}
+	
     public void salvaInclusao(final Reserva reserva, final Cota cota) {
         ofy().transact(new VoidWork() {	//mesma transacao!
             public void vrun() {
