@@ -1,7 +1,7 @@
 package com.brazilboatshare.business;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -15,8 +15,6 @@ import com.brazilboatshare.model.entity.Local;
 import com.brazilboatshare.model.entity.Reserva;
 
 public class GerenciaReserva {
-	public static SimpleDateFormat strData = new SimpleDateFormat("yyyyMMdd");
-	
 	private static int PONTOS_RESERVA_DEFAULT = 10;   
 	private static int DISTANCIA_MAXIMA_ROTEIRO_CURTO = 12;  	// milhas nauticas   
 	private static int PRAZO_RESERVA_ROTEIRO_LONGO = 15;   		// ao menos 15 dias de antecedencia p/navegar a grande distancia da sede
@@ -38,16 +36,18 @@ public class GerenciaReserva {
 	public boolean reservaValida(String usuario, Reserva reserva, Cota cota) throws RegraNegocioException {
 		if (reserva != null && reserva.getCota() != null) {
 			if (Cota.Status.OK.equals(cota.getStatus())) {
-				if (reserva.getRoteiro() != null && reserva.getRsaida() != null && reserva.getRretorno() != null) {
+				if (reserva.getRoteiro() != null && reserva.getSaida() != null && reserva.getRetorno() != null && reserva.getHoraSaida() != null && reserva.getHoraRetorno() != null) {
 					Date agora = new Date();
-					if (reserva.getRsaida().before(reserva.getRretorno()) && reserva.getRsaida().after(agora)) {
+					Date saida = montaData(reserva.getSaida(), reserva.getHoraSaida());
+					Date retorno = montaData(reserva.getRetorno(), reserva.getHoraRetorno());
+					if (saida.before(retorno) && saida.after(agora)) {
 						ReservaDao rDao = new ReservaDao();
 						boolean longo = roteiroLongo(reserva.getRoteiro(), cota.getBarco());
-						long prazo =  TimeUnit.DAYS.convert((reserva.getRsaida().getTime()-agora.getTime()), TimeUnit.MILLISECONDS);
+						long prazo =  TimeUnit.DAYS.convert((saida.getTime()-agora.getTime()), TimeUnit.MILLISECONDS);
 						if (longo && prazo < PRAZO_RESERVA_ROTEIRO_LONGO) {
 							throw new RegraNegocioException("509");							
 						} else {
-							if (!longo && (prazo < PRAZO_RESERVA_ROTEIRO_CURTO) && rDao.buscaReservaAtivaPeriodo(cota.getBarco(), reserva.getRsaida(), reserva.getRretorno()) == null) {
+							if (!longo && (prazo < PRAZO_RESERVA_ROTEIRO_CURTO) && rDao.buscaReservaAtivaPeriodo(cota.getBarco(), reserva.getSaida(), reserva.getRetorno()) == null) {
 								reserva.setStatus(Reserva.Status.CONFIRMADA);
 							} else {
 								reserva.setStatus(longo?Reserva.Status.AGUARDANDO_VALIDACAO:Reserva.Status.AGUARDANDO_CONFIRMACAO);									
@@ -71,6 +71,14 @@ public class GerenciaReserva {
 			} 
 		}
 		throw new RegraNegocioException("506");
+	}
+	
+	private Date montaData(String data, String hora) {
+		return new GregorianCalendar(new Integer(data.substring(0, 4)), 
+				new Integer(data.substring(4, 6)), 
+				new Integer(data.substring(6)),
+				new Integer(hora.substring(0,2)), 
+				new Integer(hora.substring(3))).getTime();
 	}
 	
 	public boolean roteiroLongo(List<Local> roteiro, String barco) {

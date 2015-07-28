@@ -4,10 +4,8 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
-import com.brazilboatshare.business.GerenciaReserva;
 import com.brazilboatshare.exception.RegraNegocioException;
 import com.brazilboatshare.model.entity.Cota;
 import com.brazilboatshare.model.entity.Reserva;
@@ -30,25 +28,24 @@ public class ReservaDao extends ObjectifyDao<Reserva> {
 		return null;
 	}
 	
-	public Reserva buscaReservaAtivaPeriodo(String barco, Date saida, Date retorno) throws RegraNegocioException {
+	public Reserva buscaReservaAtivaPeriodo(String barco, String saida, String retorno) throws RegraNegocioException {
 		Reserva res1 = buscaReservaAtivaPeriodo_fase1(barco, saida, retorno);
 		Reserva res2 = buscaReservaAtivaPeriodo_fase2(barco, saida, retorno);
 		return res1!=null?res1:res2;
 	}
 	
-	private Reserva buscaReservaAtivaPeriodo_fase1(String barco, Date saida, Date retorno) throws RegraNegocioException {
+	private Reserva buscaReservaAtivaPeriodo_fase1(String barco, String saida, String retorno) throws RegraNegocioException {
 		Reserva resultado = null;
 		if (barco != null && saida != null && retorno != null) {
 			Reserva.Status[] statuses = new Reserva.Status[] {Reserva.Status.AGUARDANDO_CONFIRMACAO, Reserva.Status.AGUARDANDO_VALIDACAO, Reserva.Status.ATIVA, Reserva.Status.CONDOMINIO, Reserva.Status.CONFIRMADA};
 			List<FiltroPesquisa> filtro = new ArrayList<FiltroPesquisa>();
 			filtro.add(new FiltroPesquisa("barco", barco));
 			filtro.add(new FiltroPesquisa("status IN ", statuses));
-			filtro.add(new FiltroPesquisa("saida >=", GerenciaReserva.strData.format(saida)));
+			filtro.add(new FiltroPesquisa("saida >=", saida));
 			List<Reserva> reservas =  list(filtro, Arrays.asList("saida"), null);
 			if (reservas != null && reservas.size() > 0) {
-				String strRetorno = GerenciaReserva.strData.format(retorno);
 				for (Reserva reserva : reservas) {
-					if (reserva.getSaida().compareTo(strRetorno) <= 0) {
+					if (reserva.getSaida().compareTo(retorno) <= 0) {
 						if (reserva.getStatus().equals(Reserva.Status.CONDOMINIO)) {
 							throw new RegraNegocioException("510");
 						} else if (reserva.getStatus().equals(Reserva.Status.ATIVA)) {
@@ -65,19 +62,18 @@ public class ReservaDao extends ObjectifyDao<Reserva> {
 		return resultado;
 	}
 	
-	private Reserva buscaReservaAtivaPeriodo_fase2(String barco, Date saida, Date retorno) throws RegraNegocioException {
+	private Reserva buscaReservaAtivaPeriodo_fase2(String barco, String saida, String retorno) throws RegraNegocioException {
 		Reserva resultado = null;
 		if (barco != null && saida != null && retorno != null) {
 			Reserva.Status[] statuses = new Reserva.Status[] {Reserva.Status.AGUARDANDO_CONFIRMACAO, Reserva.Status.AGUARDANDO_VALIDACAO, Reserva.Status.ATIVA, Reserva.Status.CONDOMINIO, Reserva.Status.CONFIRMADA};
 			List<FiltroPesquisa> filtro = new ArrayList<FiltroPesquisa>();
 			filtro.add(new FiltroPesquisa("barco", barco));
 			filtro.add(new FiltroPesquisa("status IN ", statuses));
-			filtro.add(new FiltroPesquisa("retorno <=", GerenciaReserva.strData.format(retorno)));
+			filtro.add(new FiltroPesquisa("retorno <=", retorno));
 			List<Reserva> reservas =  list(filtro, Arrays.asList("-retorno"), null);
 			if (reservas != null && reservas.size() > 0) {
-				String strSaida = GerenciaReserva.strData.format(saida);
 				for (Reserva reserva : reservas) {
-					if (reserva.getRetorno().compareTo(strSaida) >= 0) {
+					if (reserva.getRetorno().compareTo(saida) >= 0) {
 						if (reserva.getStatus().equals(Reserva.Status.CONDOMINIO)) {
 							throw new RegraNegocioException("510");
 						} else if (reserva.getStatus().equals(Reserva.Status.ATIVA)) {
