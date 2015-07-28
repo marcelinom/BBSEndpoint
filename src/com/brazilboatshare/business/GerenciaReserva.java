@@ -1,5 +1,6 @@
 package com.brazilboatshare.business;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -14,6 +15,8 @@ import com.brazilboatshare.model.entity.Local;
 import com.brazilboatshare.model.entity.Reserva;
 
 public class GerenciaReserva {
+	public static SimpleDateFormat strData = new SimpleDateFormat("yyyyMMdd");
+	
 	private static int PONTOS_RESERVA_DEFAULT = 10;   
 	private static int DISTANCIA_MAXIMA_ROTEIRO_CURTO = 12;  	// milhas nauticas   
 	private static int PRAZO_RESERVA_ROTEIRO_LONGO = 15;   		// ao menos 15 dias de antecedencia p/navegar a grande distancia da sede
@@ -35,31 +38,29 @@ public class GerenciaReserva {
 	public boolean reservaValida(String usuario, Reserva reserva, Cota cota) throws RegraNegocioException {
 		if (reserva != null && reserva.getCota() != null) {
 			if (Cota.Status.OK.equals(cota.getStatus())) {
-				if (reserva.getRoteiro() != null && reserva.getSaida() != null && reserva.getRetorno() != null) {
+				if (reserva.getRoteiro() != null && reserva.getRsaida() != null && reserva.getRretorno() != null) {
 					Date agora = new Date();
-					if (reserva.getSaida().before(reserva.getRetorno()) && reserva.getSaida().after(agora)) {
+					if (reserva.getRsaida().before(reserva.getRretorno()) && reserva.getRsaida().after(agora)) {
 						ReservaDao rDao = new ReservaDao();
-						if (!rDao.temReservaAtiva(reserva.getSaida())) {
-							boolean longo = roteiroLongo(reserva.getRoteiro(), reserva.getBarco());
-							long prazo =  TimeUnit.DAYS.convert((reserva.getSaida().getTime()-agora.getTime()), TimeUnit.MILLISECONDS);
-							if (longo && prazo < PRAZO_RESERVA_ROTEIRO_LONGO) {
-								throw new RegraNegocioException("509");							
-							} else {
-								if (!longo && (prazo < PRAZO_RESERVA_ROTEIRO_CURTO) && !temReservasPeriodo(reserva, cota)) {
-									reserva.setStatus(Reserva.Status.CONFIRMADA);
-								} else {
-									reserva.setStatus(longo?Reserva.Status.AGUARDANDO_VALIDACAO:Reserva.Status.AGUARDANDO_CONFIRMACAO);									
-								}
-								reserva.setSolicitacao(agora);
-								reserva.setSolicitante(usuario);
-								reserva.setCotista(cota.getUsuario());
-								reserva.setBarco(cota.getBarco());
-								reserva.setPontos(PONTOS_RESERVA_DEFAULT);
-								reserva.setOrdem(0);
-								return true;
-							}
+						boolean longo = roteiroLongo(reserva.getRoteiro(), cota.getBarco());
+						long prazo =  TimeUnit.DAYS.convert((reserva.getRsaida().getTime()-agora.getTime()), TimeUnit.MILLISECONDS);
+						if (longo && prazo < PRAZO_RESERVA_ROTEIRO_LONGO) {
+							throw new RegraNegocioException("509");							
 						} else {
-							throw new RegraNegocioException("508");							
+							if (!longo && (prazo < PRAZO_RESERVA_ROTEIRO_CURTO) && rDao.buscaReservaAtivaPeriodo(cota.getBarco(), reserva.getRsaida(), reserva.getRretorno()) == null) {
+								reserva.setStatus(Reserva.Status.CONFIRMADA);
+							} else {
+								reserva.setStatus(longo?Reserva.Status.AGUARDANDO_VALIDACAO:Reserva.Status.AGUARDANDO_CONFIRMACAO);									
+							}
+							reserva.setRsaida(null);
+							reserva.setRretorno(null);
+							reserva.setSolicitacao(agora);
+							reserva.setSolicitante(usuario);
+							reserva.setCotista(cota.getUsuario());
+							reserva.setBarco(cota.getBarco());
+							reserva.setPontos(PONTOS_RESERVA_DEFAULT);
+							reserva.setOrdem(0);
+							return true;
 						}
 					} else {
 						throw new RegraNegocioException("507");
@@ -70,10 +71,6 @@ public class GerenciaReserva {
 			} 
 		}
 		throw new RegraNegocioException("506");
-	}
-	
-	public boolean temReservasPeriodo(Reserva reserva, Cota cota) {
-		return false;
 	}
 	
 	public boolean roteiroLongo(List<Local> roteiro, String barco) {
@@ -102,10 +99,6 @@ public class GerenciaReserva {
 		return new CotaDao().lista(usuario);
 	}
 		
-	public List<Reserva> listarReservasBarcoPeriodo(String barco, Date saida, Date retorno) {
-		return new ReservaDao().listaReservasPeriodo(barco,saida,retorno);
-	}
-
 	public List<Reserva> listarReservasBarco(String usuario, Long cota) {
 		if (cota != null) {
 			Cota cCota = new CotaDao().get(cota);

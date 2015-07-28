@@ -24,52 +24,20 @@
     "maxAge" : 0
   },
   "methods" : {
-    "backoffice.cota.cadastrar" : {
-      "path" : "cota/cadastrar",
+    "backoffice.usuario.login" : {
+      "path" : "usuario/login",
       "httpMethod" : "POST",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.criarCota",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
-    "backoffice.noticia.postar" : {
-      "path" : "noticia/postar",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.postarNoticia",
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.login",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "backoffice.projeto.cadastrar" : {
-      "path" : "projeto/cadastrar",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarProjeto",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "empty"
       }
     },
     "backoffice.cadastrar.admin" : {
@@ -104,6 +72,22 @@
         "body" : "empty"
       }
     },
+    "backoffice.cota.cadastrar" : {
+      "path" : "cota/cadastrar",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.criarCota",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
     "backoffice.pais.cadastrar" : {
       "path" : "pais/cadastrar",
       "httpMethod" : "POST",
@@ -120,14 +104,30 @@
         "body" : "empty"
       }
     },
-    "backoffice.usuario.login" : {
-      "path" : "usuario/login",
+    "backoffice.projeto.cadastrar" : {
+      "path" : "projeto/cadastrar",
       "httpMethod" : "POST",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.login",
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.salvarProjeto",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "backoffice.noticia.postar" : {
+      "path" : "noticia/postar",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.BackOffice.postarNoticia",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -155,72 +155,57 @@
   },
   "descriptor" : {
     "schemas" : {
-      "Cota" : {
-        "id" : "Cota",
+      "Usuario" : {
+        "id" : "Usuario",
         "type" : "object",
         "properties" : {
-          "codigo" : {
-            "type" : "string",
-            "format" : "int64"
-          },
-          "usuario" : {
+          "apelido" : {
             "type" : "string"
           },
-          "barco" : {
+          "nome" : {
             "type" : "string"
           },
-          "status" : {
-            "$ref" : "Status"
-          },
-          "pontos" : {
-            "type" : "integer"
-          },
-          "compra" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "dependente" : {
-            "type" : "string"
-          },
-          "atual" : {
-            "type" : "string"
-          }
-        }
-      },
-      "Status" : {
-        "id" : "Status",
-        "type" : "string",
-        "enum" : [ "OK", "INADIMPLENTE", "CANCELADA" ]
-      },
-      "Noticia" : {
-        "id" : "Noticia",
-        "type" : "object",
-        "properties" : {
-          "codigo" : {
-            "type" : "string",
-            "format" : "int64"
-          },
-          "texto" : {
+          "sobrenome" : {
             "type" : "string"
           },
           "foto" : {
             "$ref" : "Text"
           },
-          "thumb" : {
-            "$ref" : "Text"
+          "endereco" : {
+            "$ref" : "Endereco"
           },
-          "link" : {
-            "$ref" : "Link"
+          "status" : {
+            "$ref" : "Status"
           },
-          "tipo" : {
-            "$ref" : "Tipo"
+          "senha" : {
+            "type" : "string"
           },
-          "data" : {
+          "criptografada" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "salt" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "emailConfirmado" : {
+            "type" : "boolean"
+          },
+          "fone" : {
+            "$ref" : "Fone"
+          },
+          "cadastro" : {
             "type" : "string",
             "format" : "date-time"
           },
-          "pais" : {
+          "locale" : {
             "type" : "string"
+          },
+          "doc" : {
+            "$ref" : "Identidade"
           }
         }
       },
@@ -233,11 +218,49 @@
           }
         }
       },
-      "Link" : {
-        "id" : "Link",
+      "Endereco" : {
+        "id" : "Endereco",
         "type" : "object",
         "properties" : {
-          "value" : {
+          "logradouro" : {
+            "type" : "string"
+          },
+          "cidade" : {
+            "type" : "string"
+          },
+          "estado" : {
+            "type" : "string"
+          },
+          "pais" : {
+            "type" : "string"
+          },
+          "cep" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Status" : {
+        "id" : "Status",
+        "type" : "string",
+        "enum" : [ "OK", "INATIVO" ]
+      },
+      "Fone" : {
+        "id" : "Fone",
+        "type" : "object",
+        "properties" : {
+          "ddi" : {
+            "type" : "string"
+          },
+          "ddd" : {
+            "type" : "string"
+          },
+          "numero" : {
+            "type" : "string"
+          },
+          "tipo" : {
+            "$ref" : "Tipo"
+          },
+          "operadora" : {
             "type" : "string"
           }
         }
@@ -245,37 +268,51 @@
       "Tipo" : {
         "id" : "Tipo",
         "type" : "string",
-        "enum" : [ "ALERTA", "INFORMACAO", "PROPAGANDA" ]
+        "enum" : [ "FIXO", "MOVEL", "RADIO", "SATELITE" ]
       },
-      "Projeto" : {
-        "id" : "Projeto",
+      "Identidade" : {
+        "id" : "Identidade",
         "type" : "object",
         "properties" : {
-          "nome" : {
+          "codigo" : {
             "type" : "string"
           },
-          "link" : {
-            "$ref" : "Link"
+          "emissor" : {
+            "type" : "string"
           },
           "tipo" : {
             "$ref" : "Tipo"
-          },
-          "pes" : {
-            "type" : "integer"
-          },
-          "titulo" : {
+          }
+        }
+      },
+      "Sessao" : {
+        "id" : "Sessao",
+        "type" : "object",
+        "properties" : {
+          "usuario" : {
             "type" : "string"
           },
-          "descricao" : {
+          "codigo" : {
+            "type" : "string"
+          },
+          "expira" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "endereco" : {
             "type" : "array",
             "items" : {
               "type" : "string"
             }
           },
-          "autor" : {
-            "type" : "string"
+          "resposta" : {
+            "$ref" : "_any"
           }
         }
+      },
+      "_any" : {
+        "id" : "_any",
+        "type" : "any"
       },
       "Administrador" : {
         "id" : "Administrador",
@@ -383,6 +420,15 @@
           }
         }
       },
+      "Link" : {
+        "id" : "Link",
+        "type" : "object",
+        "properties" : {
+          "value" : {
+            "type" : "string"
+          }
+        }
+      },
       "Local" : {
         "id" : "Local",
         "type" : "object",
@@ -395,6 +441,38 @@
           },
           "lng" : {
             "type" : "number"
+          }
+        }
+      },
+      "Cota" : {
+        "id" : "Cota",
+        "type" : "object",
+        "properties" : {
+          "codigo" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "usuario" : {
+            "type" : "string"
+          },
+          "barco" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "Status"
+          },
+          "pontos" : {
+            "type" : "integer"
+          },
+          "compra" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "dependente" : {
+            "type" : "string"
+          },
+          "atual" : {
+            "type" : "string"
           }
         }
       },
@@ -438,145 +516,67 @@
         "type" : "string",
         "enum" : [ "Português", "Español", "English" ]
       },
-      "Usuario" : {
-        "id" : "Usuario",
+      "Projeto" : {
+        "id" : "Projeto",
         "type" : "object",
         "properties" : {
-          "apelido" : {
-            "type" : "string"
-          },
           "nome" : {
             "type" : "string"
           },
-          "sobrenome" : {
-            "type" : "string"
-          },
-          "foto" : {
-            "$ref" : "Text"
-          },
-          "endereco" : {
-            "$ref" : "Endereco"
-          },
-          "status" : {
-            "$ref" : "Status"
-          },
-          "senha" : {
-            "type" : "string"
-          },
-          "criptografada" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "salt" : {
-            "type" : "string",
-            "format" : "byte"
-          },
-          "email" : {
-            "type" : "string"
-          },
-          "emailConfirmado" : {
-            "type" : "boolean"
-          },
-          "fone" : {
-            "$ref" : "Fone"
-          },
-          "cadastro" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "locale" : {
-            "type" : "string"
-          },
-          "doc" : {
-            "$ref" : "Identidade"
-          }
-        }
-      },
-      "Endereco" : {
-        "id" : "Endereco",
-        "type" : "object",
-        "properties" : {
-          "logradouro" : {
-            "type" : "string"
-          },
-          "cidade" : {
-            "type" : "string"
-          },
-          "estado" : {
-            "type" : "string"
-          },
-          "pais" : {
-            "type" : "string"
-          },
-          "cep" : {
-            "type" : "string"
-          }
-        }
-      },
-      "Fone" : {
-        "id" : "Fone",
-        "type" : "object",
-        "properties" : {
-          "ddi" : {
-            "type" : "string"
-          },
-          "ddd" : {
-            "type" : "string"
-          },
-          "numero" : {
-            "type" : "string"
+          "link" : {
+            "$ref" : "Link"
           },
           "tipo" : {
             "$ref" : "Tipo"
           },
-          "operadora" : {
-            "type" : "string"
-          }
-        }
-      },
-      "Identidade" : {
-        "id" : "Identidade",
-        "type" : "object",
-        "properties" : {
-          "codigo" : {
+          "pes" : {
+            "type" : "integer"
+          },
+          "titulo" : {
             "type" : "string"
           },
-          "emissor" : {
-            "type" : "string"
-          },
-          "tipo" : {
-            "$ref" : "Tipo"
-          }
-        }
-      },
-      "Sessao" : {
-        "id" : "Sessao",
-        "type" : "object",
-        "properties" : {
-          "usuario" : {
-            "type" : "string"
-          },
-          "codigo" : {
-            "type" : "string"
-          },
-          "expira" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "endereco" : {
+          "descricao" : {
             "type" : "array",
             "items" : {
               "type" : "string"
             }
           },
-          "resposta" : {
-            "$ref" : "_any"
+          "autor" : {
+            "type" : "string"
           }
         }
       },
-      "_any" : {
-        "id" : "_any",
-        "type" : "any"
+      "Noticia" : {
+        "id" : "Noticia",
+        "type" : "object",
+        "properties" : {
+          "codigo" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "texto" : {
+            "type" : "string"
+          },
+          "foto" : {
+            "$ref" : "Text"
+          },
+          "thumb" : {
+            "$ref" : "Text"
+          },
+          "link" : {
+            "$ref" : "Link"
+          },
+          "tipo" : {
+            "$ref" : "Tipo"
+          },
+          "data" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "pais" : {
+            "type" : "string"
+          }
+        }
       },
       "TipoContabil" : {
         "id" : "TipoContabil",
@@ -595,22 +595,12 @@
       }
     },
     "methods" : {
-      "com.brazilboatshare.endpoint.BackOffice.criarCota" : {
+      "com.brazilboatshare.endpoint.BackOffice.login" : {
         "request" : {
-          "$ref" : "Cota"
-        }
-      },
-      "com.brazilboatshare.endpoint.BackOffice.postarNoticia" : {
-        "request" : {
-          "$ref" : "Noticia"
+          "$ref" : "Usuario"
         },
         "response" : {
-          "$ref" : "Noticia"
-        }
-      },
-      "com.brazilboatshare.endpoint.BackOffice.salvarProjeto" : {
-        "request" : {
-          "$ref" : "Projeto"
+          "$ref" : "Sessao"
         }
       },
       "com.brazilboatshare.endpoint.BackOffice.cadastrarAdmin" : {
@@ -623,17 +613,27 @@
           "$ref" : "Barco"
         }
       },
+      "com.brazilboatshare.endpoint.BackOffice.criarCota" : {
+        "request" : {
+          "$ref" : "Cota"
+        }
+      },
       "com.brazilboatshare.endpoint.BackOffice.salvarPais" : {
         "request" : {
           "$ref" : "Pais"
         }
       },
-      "com.brazilboatshare.endpoint.BackOffice.login" : {
+      "com.brazilboatshare.endpoint.BackOffice.salvarProjeto" : {
         "request" : {
-          "$ref" : "Usuario"
+          "$ref" : "Projeto"
+        }
+      },
+      "com.brazilboatshare.endpoint.BackOffice.postarNoticia" : {
+        "request" : {
+          "$ref" : "Noticia"
         },
         "response" : {
-          "$ref" : "Sessao"
+          "$ref" : "Noticia"
         }
       },
       "com.brazilboatshare.endpoint.BackOffice.salvarTipoContabil" : {

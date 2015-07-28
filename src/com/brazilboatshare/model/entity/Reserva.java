@@ -14,6 +14,7 @@ public class Reserva implements Serializable {
 	public enum Status {AGUARDANDO_CONFIRMACAO, 		// aguardando confirmacao
 						AGUARDANDO_VALIDACAO, 			// aguardando validacao do roteiro
 						CONFIRMADA, 					// usuario pode usar o barco
+						EXPIRADA,						// perdeu disputa para outra reserva
 						CONDOMINIO,						// realizada pelo condominio e ja confirmada formalmente
 						IMPUGNADA, 						// roteiro nao foi aceito
 						CANCELADA, 						// condomino ou o condominio cancelou a reserva
@@ -30,8 +31,10 @@ public class Reserva implements Serializable {
 	private int penalidade;					// pontos de penalizacao (em caso de cancelamento, noshow, etc)
 	private int ordem;						// prioridade da reserva
 	@Index private Status status;
-	@Index private Date saida;				// data prevista para check-on
-	@Index private Date retorno;			// data prevista para devolver o barco (check-off)
+	@Index private String saida;			// data prevista para check-on (no formato yyyymmdd)
+	@Index private String retorno;			// data prevista para devolver o barco (no formato yyyymmdd)
+	private String horaSaida;				// hora prevista para saida (no formato hh:mm)
+	private String horaRetorno;				// hora prevista para o retorno (no formato hh:mm)
 	private Date rsaida;					// data real do check-on
 	private Date rretorno;					// data real da devolucao do barco (check-off)
 	private Date solicitacao;				// data da solicitacao da reserva
@@ -91,17 +94,29 @@ public class Reserva implements Serializable {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-	public Date getSaida() {
+	public String getSaida() {
 		return saida;
 	}
-	public void setSaida(Date saida) {
+	public void setSaida(String saida) {
 		this.saida = saida;
 	}
-	public Date getRetorno() {
+	public String getRetorno() {
 		return retorno;
 	}
-	public void setRetorno(Date retorno) {
+	public void setRetorno(String retorno) {
 		this.retorno = retorno;
+	}
+	public String getHoraSaida() {
+		return horaSaida;
+	}
+	public void setHoraSaida(String horaSaida) {
+		this.horaSaida = horaSaida;
+	}
+	public String getHoraRetorno() {
+		return horaRetorno;
+	}
+	public void setHoraRetorno(String horaRetorno) {
+		this.horaRetorno = horaRetorno;
 	}
 	public Date getRsaida() {
 		return rsaida;

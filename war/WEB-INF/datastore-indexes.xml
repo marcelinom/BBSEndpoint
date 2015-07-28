@@ -4,4 +4,17 @@
         <property name="barco" direction="asc"/>
         <property name="status" direction="asc"/>
     </datastore-index>    
+
+	<datastore-index kind="Reserva" ancestor="false" source="manual">
+	    <property name="barco" direction="asc"/>
+	    <property name="status" direction="asc"/>
+	    <property name="saida" direction="asc"/>
+	</datastore-index>
+
+	<datastore-index kind="Reserva" ancestor="false" source="manual">
+	    <property name="barco" direction="asc"/>
+	    <property name="status" direction="asc"/>
+	    <property name="retorno" direction="desc"/>
+	</datastore-index>
+
 </datastore-indexes>
