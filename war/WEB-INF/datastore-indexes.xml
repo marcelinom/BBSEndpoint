@@ -9,12 +9,14 @@
 	    <property name="barco" direction="asc"/>
 	    <property name="status" direction="asc"/>
 	    <property name="saida" direction="asc"/>
+	    <property name="ordem" direction="desc"/>
 	</datastore-index>
 
 	<datastore-index kind="Reserva" ancestor="false" source="manual">
 	    <property name="barco" direction="asc"/>
 	    <property name="status" direction="asc"/>
 	    <property name="retorno" direction="desc"/>
+	    <property name="ordem" direction="desc"/>	    
 	</datastore-index>
 
 </datastore-indexes>

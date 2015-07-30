@@ -42,7 +42,7 @@ public class ReservaDao extends ObjectifyDao<Reserva> {
 			filtro.add(new FiltroPesquisa("barco", barco));
 			filtro.add(new FiltroPesquisa("status IN ", statuses));
 			filtro.add(new FiltroPesquisa("saida >=", saida));
-			List<Reserva> reservas =  list(filtro, Arrays.asList("saida"), null);
+			List<Reserva> reservas =  list(filtro, Arrays.asList("saida","-ordem"), null);
 			if (reservas != null && reservas.size() > 0) {
 				for (Reserva reserva : reservas) {
 					if (reserva.getSaida().compareTo(retorno) <= 0) {
@@ -70,7 +70,7 @@ public class ReservaDao extends ObjectifyDao<Reserva> {
 			filtro.add(new FiltroPesquisa("barco", barco));
 			filtro.add(new FiltroPesquisa("status IN ", statuses));
 			filtro.add(new FiltroPesquisa("retorno <=", retorno));
-			List<Reserva> reservas =  list(filtro, Arrays.asList("-retorno"), null);
+			List<Reserva> reservas =  list(filtro, Arrays.asList("-retorno","-ordem"), null);
 			if (reservas != null && reservas.size() > 0) {
 				for (Reserva reserva : reservas) {
 					if (reserva.getRetorno().compareTo(saida) >= 0) {

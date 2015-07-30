@@ -12,6 +12,7 @@ public class Referencia implements Serializable {
 	private String descricao;
 	private Link site;
 	private double raio;				// raio maximo de distancia (em Km) p/roteiro sem pre-aprovacao
+	private double fuso;				// fuso horario do local
 	
 	public String getDescricao() {
 		return descricao;
@@ -24,6 +25,12 @@ public class Referencia implements Serializable {
 	}
 	public void setSite(Link site) {
 		this.site = site;
+	}
+	public double getFuso() {
+		return fuso;
+	}
+	public void setFuso(double fuso) {
+		this.fuso = fuso;
 	}
 	public double getRaio() {
 		return raio;

@@ -14,10 +14,14 @@ public class Reserva implements Serializable {
 	public enum Status {AGUARDANDO_CONFIRMACAO, 		// aguardando confirmacao
 						AGUARDANDO_VALIDACAO, 			// aguardando validacao do roteiro
 						CONFIRMADA, 					// usuario pode usar o barco
+						EM_CONFIRMACAO, 				// usada juntamente com EM_CANCELAMENTO, para promover outra reserva apos cancelamento
 						EXPIRADA,						// perdeu disputa para outra reserva
 						CONDOMINIO,						// realizada pelo condominio e ja confirmada formalmente
 						IMPUGNADA, 						// roteiro nao foi aceito
 						CANCELADA, 						// condomino ou o condominio cancelou a reserva
+						EM_CANCELAMENTO,				// em processo de cancelamento
+						IMPEDIDO,						// cancelado pelo condominio devido fatores externos (mau tempo, defeito, etc.)
+						NO_SHOW,						// condomino nao se apresentou para checkon
 						ATIVA,							// condomino fez check-on
 						REALIZADA						// condomino fez check-off
 						};
@@ -29,7 +33,7 @@ public class Reserva implements Serializable {
 	private String solicitante;				// quem solicitou a reserva (o condomino ou o dependente
 	private int pontos;						// pontos oferecidos para reserva
 	private int penalidade;					// pontos de penalizacao (em caso de cancelamento, noshow, etc)
-	private int ordem;						// prioridade da reserva
+	@Index private int ordem;				// prioridade da reserva
 	@Index private Status status;
 	@Index private String saida;			// data prevista para check-on (no formato yyyymmdd)
 	@Index private String retorno;			// data prevista para devolver o barco (no formato yyyymmdd)

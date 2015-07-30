@@ -40,6 +40,35 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
+    "web.dependente.excluir" : {
+      "path" : "dependente/excluir",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.excluirDependente",
+      "request" : {
+        "parameters" : {
+          "usuario" : {
+            "type" : "string",
+            "required" : true
+          },
+          "cota" : {
+            "type" : "int64",
+            "required" : true
+          },
+          "sessao" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
     "web.dependente.incluir" : {
       "path" : "dependente/incluir",
       "httpMethod" : "PUT",
@@ -60,35 +89,6 @@
           },
           "dep" : {
             "type" : "string",
-            "required" : true
-          },
-          "sessao" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "web.dependente.excluir" : {
-      "path" : "dependente/excluir",
-      "httpMethod" : "DELETE",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.Web.excluirDependente",
-      "request" : {
-        "parameters" : {
-          "usuario" : {
-            "type" : "string",
-            "required" : true
-          },
-          "cota" : {
-            "type" : "int64",
             "required" : true
           },
           "sessao" : {
@@ -149,6 +149,35 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
+    "web.reservas.barco.listar" : {
+      "path" : "reservas/barco/listar",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.listarReservasBarco",
+      "request" : {
+        "parameters" : {
+          "usuario" : {
+            "type" : "string",
+            "required" : true
+          },
+          "sessao" : {
+            "type" : "string",
+            "required" : true
+          },
+          "cota" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
     "web.reserva.pontos.oferecer" : {
       "path" : "reserva/pontos/oferecer",
       "httpMethod" : "PUT",
@@ -182,56 +211,22 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "web.reservas.barco.listar" : {
-      "path" : "reservas/barco/listar",
+    "web.barco.buscar" : {
+      "path" : "barco/buscar",
       "httpMethod" : "GET",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.Web.listarReservasBarco",
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.buscarBarco",
       "request" : {
         "parameters" : {
-          "usuario" : {
+          "nome" : {
             "type" : "string",
-            "required" : true
-          },
-          "sessao" : {
-            "type" : "string",
-            "required" : true
-          },
-          "cota" : {
-            "type" : "int64",
             "required" : true
           }
         },
         "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "web.solicitar.reserva" : {
-      "path" : "solicitar/reserva",
-      "httpMethod" : "PUT",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.Web.solicitarReserva",
-      "request" : {
-        "parameters" : {
-          "usuario" : {
-            "type" : "string",
-            "required" : true
-          },
-          "sessao" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -259,6 +254,21 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
+    "web.barcos.listar" : {
+      "path" : "barcos/listar",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.listarBarcos",
+      "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
     "web.usuario.documento.alterar" : {
       "path" : "usuario/documento/alterar",
       "httpMethod" : "PUT",
@@ -267,28 +277,6 @@
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
       "rosyMethod" : "com.brazilboatshare.endpoint.Web.alterarDocumento",
-      "request" : {
-        "parameters" : {
-          "sessao" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "web.usuario.endereco.alterar" : {
-      "path" : "usuario/endereco/alterar",
-      "httpMethod" : "PUT",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.Web.alterarEndereco",
       "request" : {
         "parameters" : {
           "sessao" : {
@@ -325,76 +313,6 @@
         "body" : "empty"
       }
     },
-    "web.usuario.renovar" : {
-      "path" : "usuario/renovar",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.Web.continuaCadastro",
-      "request" : {
-        "parameters" : {
-          "usuario" : {
-            "type" : "string",
-            "required" : true
-          },
-          "sessao" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "web.perfil.buscar" : {
-      "path" : "perfil/buscar",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.Web.buscarPerfil",
-      "request" : {
-        "parameters" : {
-          "usuario" : {
-            "type" : "string",
-            "required" : true
-          },
-          "perfil" : {
-            "type" : "string",
-            "required" : true
-          },
-          "sessao" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "web.usuario.senha.esqueci" : {
-      "path" : "usuario/senha/esqueci",
-      "httpMethod" : "PUT",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.Web.esqueciSenha",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
     "web.noticia.listar" : {
       "path" : "noticia/listar",
       "httpMethod" : "GET",
@@ -407,6 +325,108 @@
         "parameters" : {
           "pais" : {
             "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "web.solicitar.reserva" : {
+      "path" : "solicitar/reserva",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.solicitarReserva",
+      "request" : {
+        "parameters" : {
+          "usuario" : {
+            "type" : "string",
+            "required" : true
+          },
+          "sessao" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "web.usuario.endereco.alterar" : {
+      "path" : "usuario/endereco/alterar",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.alterarEndereco",
+      "request" : {
+        "parameters" : {
+          "sessao" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "web.extrato.listar" : {
+      "path" : "extrato/listar",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.listarExtrato",
+      "request" : {
+        "parameters" : {
+          "usuario" : {
+            "type" : "string",
+            "required" : true
+          },
+          "sessao" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "web.cota.buscar" : {
+      "path" : "cota/buscar",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.buscarCota",
+      "request" : {
+        "parameters" : {
+          "usuario" : {
+            "type" : "string",
+            "required" : true
+          },
+          "sessao" : {
+            "type" : "string",
+            "required" : true
+          },
+          "cota" : {
+            "type" : "int64",
             "required" : true
           }
         },
@@ -461,50 +481,14 @@
         "body" : "empty"
       }
     },
-    "web.barcos.listar" : {
-      "path" : "barcos/listar",
+    "web.conta.saldo.listar" : {
+      "path" : "conta/saldo/listar",
       "httpMethod" : "GET",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.Web.listarBarcos",
-      "request" : {
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "web.barco.buscar" : {
-      "path" : "barco/buscar",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.Web.buscarBarco",
-      "request" : {
-        "parameters" : {
-          "nome" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "web.cota.buscar" : {
-      "path" : "cota/buscar",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.Web.buscarCota",
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.listarSaldoConta",
       "request" : {
         "parameters" : {
           "usuario" : {
@@ -514,9 +498,34 @@
           "sessao" : {
             "type" : "string",
             "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "web.perfil.buscar" : {
+      "path" : "perfil/buscar",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.buscarPerfil",
+      "request" : {
+        "parameters" : {
+          "usuario" : {
+            "type" : "string",
+            "required" : true
           },
-          "cota" : {
-            "type" : "int64",
+          "perfil" : {
+            "type" : "string",
+            "required" : true
+          },
+          "sessao" : {
+            "type" : "string",
             "required" : true
           }
         },
@@ -524,6 +533,47 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "web.usuario.renovar" : {
+      "path" : "usuario/renovar",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.continuaCadastro",
+      "request" : {
+        "parameters" : {
+          "usuario" : {
+            "type" : "string",
+            "required" : true
+          },
+          "sessao" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "web.usuario.senha.esqueci" : {
+      "path" : "usuario/senha/esqueci",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.brazilboatshare.endpoint.Web.esqueciSenha",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
       }
     },
     "web.reserva.cancelar" : {
@@ -555,31 +605,6 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "web.extrato.listar" : {
-      "path" : "extrato/listar",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.Web.listarExtrato",
-      "request" : {
-        "parameters" : {
-          "usuario" : {
-            "type" : "string",
-            "required" : true
-          },
-          "sessao" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
     "web.reserva.buscar" : {
       "path" : "reserva/buscar",
       "httpMethod" : "GET",
@@ -600,31 +625,6 @@
           },
           "reserva" : {
             "type" : "int64",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "web.conta.saldo.listar" : {
-      "path" : "conta/saldo/listar",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.brazilboatshare.endpoint.Web.listarSaldoConta",
-      "request" : {
-        "parameters" : {
-          "usuario" : {
-            "type" : "string",
-            "required" : true
-          },
-          "sessao" : {
-            "type" : "string",
             "required" : true
           }
         },
@@ -796,148 +796,6 @@
         "id" : "_any",
         "type" : "any"
       },
-      "Reserva" : {
-        "id" : "Reserva",
-        "type" : "object",
-        "properties" : {
-          "codigo" : {
-            "type" : "string",
-            "format" : "int64"
-          },
-          "barco" : {
-            "type" : "string"
-          },
-          "cota" : {
-            "type" : "string",
-            "format" : "int64"
-          },
-          "cotista" : {
-            "type" : "string"
-          },
-          "solicitante" : {
-            "type" : "string"
-          },
-          "pontos" : {
-            "type" : "integer"
-          },
-          "penalidade" : {
-            "type" : "integer"
-          },
-          "ordem" : {
-            "type" : "integer"
-          },
-          "status" : {
-            "$ref" : "Status"
-          },
-          "saida" : {
-            "type" : "string"
-          },
-          "retorno" : {
-            "type" : "string"
-          },
-          "horaSaida" : {
-            "type" : "string"
-          },
-          "horaRetorno" : {
-            "type" : "string"
-          },
-          "rsaida" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "rretorno" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "solicitacao" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "roteiro" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "Local"
-            }
-          }
-        }
-      },
-      "Local" : {
-        "id" : "Local",
-        "type" : "object",
-        "properties" : {
-          "descricao" : {
-            "type" : "string"
-          },
-          "lat" : {
-            "type" : "number"
-          },
-          "lng" : {
-            "type" : "number"
-          }
-        }
-      },
-      "Noticia" : {
-        "id" : "Noticia",
-        "type" : "object",
-        "properties" : {
-          "codigo" : {
-            "type" : "string",
-            "format" : "int64"
-          },
-          "texto" : {
-            "type" : "string"
-          },
-          "foto" : {
-            "$ref" : "Text"
-          },
-          "thumb" : {
-            "$ref" : "Text"
-          },
-          "link" : {
-            "$ref" : "Link"
-          },
-          "tipo" : {
-            "$ref" : "Tipo"
-          },
-          "data" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "pais" : {
-            "type" : "string"
-          }
-        }
-      },
-      "Link" : {
-        "id" : "Link",
-        "type" : "object",
-        "properties" : {
-          "value" : {
-            "type" : "string"
-          }
-        }
-      },
-      "NoticiaCollection" : {
-        "id" : "NoticiaCollection",
-        "type" : "object",
-        "properties" : {
-          "items" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "Noticia"
-            }
-          }
-        }
-      },
-      "List" : {
-        "id" : "List",
-        "type" : "object",
-        "properties" : {
-          "empty" : {
-            "type" : "boolean"
-          }
-        }
-      },
       "ViewBarco" : {
         "id" : "ViewBarco",
         "type" : "object",
@@ -1017,6 +875,33 @@
           },
           "raio" : {
             "type" : "number"
+          },
+          "fuso" : {
+            "type" : "number"
+          }
+        }
+      },
+      "Link" : {
+        "id" : "Link",
+        "type" : "object",
+        "properties" : {
+          "value" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Local" : {
+        "id" : "Local",
+        "type" : "object",
+        "properties" : {
+          "descricao" : {
+            "type" : "string"
+          },
+          "lat" : {
+            "type" : "number"
+          },
+          "lng" : {
+            "type" : "number"
           }
         }
       },
@@ -1049,6 +934,124 @@
             "type" : "string"
           }
         }
+      },
+      "List" : {
+        "id" : "List",
+        "type" : "object",
+        "properties" : {
+          "empty" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "Noticia" : {
+        "id" : "Noticia",
+        "type" : "object",
+        "properties" : {
+          "codigo" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "texto" : {
+            "type" : "string"
+          },
+          "foto" : {
+            "$ref" : "Text"
+          },
+          "thumb" : {
+            "$ref" : "Text"
+          },
+          "link" : {
+            "$ref" : "Link"
+          },
+          "tipo" : {
+            "$ref" : "Tipo"
+          },
+          "data" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "pais" : {
+            "type" : "string"
+          }
+        }
+      },
+      "NoticiaCollection" : {
+        "id" : "NoticiaCollection",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Noticia"
+            }
+          }
+        }
+      },
+      "Reserva" : {
+        "id" : "Reserva",
+        "type" : "object",
+        "properties" : {
+          "codigo" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "barco" : {
+            "type" : "string"
+          },
+          "cota" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "cotista" : {
+            "type" : "string"
+          },
+          "solicitante" : {
+            "type" : "string"
+          },
+          "pontos" : {
+            "type" : "integer"
+          },
+          "penalidade" : {
+            "type" : "integer"
+          },
+          "ordem" : {
+            "type" : "integer"
+          },
+          "status" : {
+            "$ref" : "Status"
+          },
+          "saida" : {
+            "type" : "string"
+          },
+          "retorno" : {
+            "type" : "string"
+          },
+          "horaSaida" : {
+            "type" : "string"
+          },
+          "horaRetorno" : {
+            "type" : "string"
+          },
+          "rsaida" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "rretorno" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "solicitacao" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "roteiro" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Local"
+            }
+          }
+        }
       }
     },
     "methods" : {
@@ -1060,12 +1063,12 @@
           "$ref" : "Sessao"
         }
       },
-      "com.brazilboatshare.endpoint.Web.incluirDependente" : {
+      "com.brazilboatshare.endpoint.Web.excluirDependente" : {
         "response" : {
           "$ref" : "Sessao"
         }
       },
-      "com.brazilboatshare.endpoint.Web.excluirDependente" : {
+      "com.brazilboatshare.endpoint.Web.incluirDependente" : {
         "response" : {
           "$ref" : "Sessao"
         }
@@ -1080,22 +1083,19 @@
           "$ref" : "Sessao"
         }
       },
-      "com.brazilboatshare.endpoint.Web.oferecerPontosLeilao" : {
-        "response" : {
-          "$ref" : "Sessao"
-        }
-      },
       "com.brazilboatshare.endpoint.Web.listarReservasBarco" : {
         "response" : {
           "$ref" : "Sessao"
         }
       },
-      "com.brazilboatshare.endpoint.Web.solicitarReserva" : {
-        "request" : {
-          "$ref" : "Reserva"
-        },
+      "com.brazilboatshare.endpoint.Web.oferecerPontosLeilao" : {
         "response" : {
           "$ref" : "Sessao"
+        }
+      },
+      "com.brazilboatshare.endpoint.Web.buscarBarco" : {
+        "response" : {
+          "$ref" : "ViewBarco"
         }
       },
       "com.brazilboatshare.endpoint.Web.alterarCadastro" : {
@@ -1106,9 +1106,32 @@
           "$ref" : "Sessao"
         }
       },
+      "com.brazilboatshare.endpoint.Web.listarBarcos" : {
+        "response" : {
+          "$ref" : "List"
+        }
+      },
       "com.brazilboatshare.endpoint.Web.alterarDocumento" : {
         "request" : {
           "$ref" : "Usuario"
+        },
+        "response" : {
+          "$ref" : "Sessao"
+        }
+      },
+      "com.brazilboatshare.endpoint.Web.alterarSenha" : {
+        "request" : {
+          "$ref" : "Usuario"
+        }
+      },
+      "com.brazilboatshare.endpoint.Web.listarNoticias" : {
+        "response" : {
+          "$ref" : "NoticiaCollection"
+        }
+      },
+      "com.brazilboatshare.endpoint.Web.solicitarReserva" : {
+        "request" : {
+          "$ref" : "Reserva"
         },
         "response" : {
           "$ref" : "Sessao"
@@ -1122,29 +1145,14 @@
           "$ref" : "Sessao"
         }
       },
-      "com.brazilboatshare.endpoint.Web.alterarSenha" : {
-        "request" : {
-          "$ref" : "Usuario"
-        }
-      },
-      "com.brazilboatshare.endpoint.Web.continuaCadastro" : {
+      "com.brazilboatshare.endpoint.Web.listarExtrato" : {
         "response" : {
           "$ref" : "Sessao"
         }
       },
-      "com.brazilboatshare.endpoint.Web.buscarPerfil" : {
+      "com.brazilboatshare.endpoint.Web.buscarCota" : {
         "response" : {
           "$ref" : "Sessao"
-        }
-      },
-      "com.brazilboatshare.endpoint.Web.esqueciSenha" : {
-        "request" : {
-          "$ref" : "Usuario"
-        }
-      },
-      "com.brazilboatshare.endpoint.Web.listarNoticias" : {
-        "response" : {
-          "$ref" : "NoticiaCollection"
         }
       },
       "com.brazilboatshare.endpoint.Web.buscarDependente" : {
@@ -1157,19 +1165,24 @@
           "$ref" : "Usuario"
         }
       },
-      "com.brazilboatshare.endpoint.Web.listarBarcos" : {
-        "response" : {
-          "$ref" : "List"
-        }
-      },
-      "com.brazilboatshare.endpoint.Web.buscarBarco" : {
-        "response" : {
-          "$ref" : "ViewBarco"
-        }
-      },
-      "com.brazilboatshare.endpoint.Web.buscarCota" : {
+      "com.brazilboatshare.endpoint.Web.listarSaldoConta" : {
         "response" : {
           "$ref" : "Sessao"
+        }
+      },
+      "com.brazilboatshare.endpoint.Web.buscarPerfil" : {
+        "response" : {
+          "$ref" : "Sessao"
+        }
+      },
+      "com.brazilboatshare.endpoint.Web.continuaCadastro" : {
+        "response" : {
+          "$ref" : "Sessao"
+        }
+      },
+      "com.brazilboatshare.endpoint.Web.esqueciSenha" : {
+        "request" : {
+          "$ref" : "Usuario"
         }
       },
       "com.brazilboatshare.endpoint.Web.cancelarReserva" : {
@@ -1177,17 +1190,7 @@
           "$ref" : "Sessao"
         }
       },
-      "com.brazilboatshare.endpoint.Web.listarExtrato" : {
-        "response" : {
-          "$ref" : "Sessao"
-        }
-      },
       "com.brazilboatshare.endpoint.Web.buscarReserva" : {
-        "response" : {
-          "$ref" : "Sessao"
-        }
-      },
-      "com.brazilboatshare.endpoint.Web.listarSaldoConta" : {
         "response" : {
           "$ref" : "Sessao"
         }
